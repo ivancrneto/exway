@@ -9,20 +9,20 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+from unipath import Path
+BASE_DIR = Path(__file__).parent
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'i!@5xi_!&%ke^x8u(i_(4zk%ay2rh2!=vq+p-0qpe8___z+*7a'
+SECRET_KEY = 'i!@5xi_!&%ke^x8u(i_(4zk%ay2rh2!=vq+p-0qpe8___z+*7exway'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ['54.207.37.156', 'ec2-54-235-156-174.compute-1.amazonaws.com']
 
@@ -37,6 +37,11 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 )
+
+PROJECT_APPS = (
+)
+
+INSTALLED_APPS += PROJECT_APPS
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -58,7 +63,7 @@ WSGI_APPLICATION = 'exway.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': BASE_DIR.child('db.sqlite3'),
     }
 }
 
@@ -80,3 +85,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR.parent.child('static')
+
+STATICFILES_DIRS = (
+    BASE_DIR.child('static'),
+)
+
+try:
+    from .local_settings import *
+except ImportError:
+    pass
