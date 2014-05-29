@@ -24,7 +24,7 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['54.207.37.156', 'ec2-54-235-156-174.compute-1.amazonaws.com']
 
 
 # Application definition
