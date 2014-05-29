@@ -101,6 +101,7 @@ def deploy():
     WORKON = 'source /home/ubuntu/.virtualenvs/exway/bin/activate'
     with prefix(WORKON), cd('/home/ubuntu/ivan-carmo-da-rocha-neto/'):
         run('mkdir -p static')
+        run('mkdir -p exway/static')
         run('mkdir -p public')
         run('mkdir -p logs/nginx')
         run('git checkout -f')
