@@ -1,3 +1,5 @@
 from django.shortcuts import render
 
-# Create your views here.
+def home(request):
+    """ This view just returns the html for the draw page """
+    return render(request, 'home.html', {})
