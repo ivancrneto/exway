@@ -39,6 +39,7 @@ INSTALLED_APPS = (
 )
 
 PROJECT_APPS = (
+    'exway.core',
 )
 
 INSTALLED_APPS += PROJECT_APPS
