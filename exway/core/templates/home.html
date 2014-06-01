@@ -1,5 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-  This is the home page
+  <nav class="navbar navbar-inverse">
+    <a class="navbar-brand" href="{% url 'core:home' %}">Exway - Expenses the Easy Way!</a>
+    <ul class="nav navbar-nav">
+      <li><a href="#">Expenses</a></li>
+      <li><a href="#">Reports</a></li>
+    </ul>
+  </nav>
+
+  <div class="container-fluid">
+    {% block content_inner %}
+    {% endblock content_inner %}
+  </div>
 {% endblock content %}
