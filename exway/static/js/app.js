@@ -13,10 +13,31 @@
         templateUrl: 'partials/expenses.html',
         controller: 'ExpensesController'
       }).
+      when('/reports', {
+        templateUrl: 'partials/reports.html',
+        controller: 'ReportsController'
+      }).
       otherwise({redirectTo: '/'});
   });
 
-  app.controller('ExpensesController', function($scope){
+  app.controller('PagesController', function(){
+    this.page = 1;
+
+    this.selectPage = function(setPage) {
+      this.page = setPage;
+    };
+
+    this.isSelected = function(checkPage) {
+      return this.page == checkPage;
+    };
+
+  });
+
+  app.controller('ExpensesController', function(){
+
+  });
+
+  app.controller('ReportsController', function(){
 
   });
 })();

@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <nav class="navbar navbar-inverse">
-    <a class="navbar-brand" href="{% url 'core:home' %}">Exway - Expenses the Easy Way!</a>
+  <nav class="navbar navbar-inverse" ng-controller="PagesController as pages">
+    <a class="navbar-brand" href="#/" ng-click="pages.selectPage(1)">Exway - Expenses the Easy Way!</a>
     <ul class="nav navbar-nav">
-      <li><a href="#">Expenses</a></li>
-      <li><a href="#">Reports</a></li>
+      <li ng-class="{ active: pages.isSelected(1) }"><a href="#/" ng-click="pages.selectPage(1)">Expenses</a></li>
+      <li ng-class="{ active: pages.isSelected(2) }"><a href="#/reports" ng-click="pages.selectPage(2)">Reports</a></li>
     </ul>
   </nav>
 
