@@ -1,12 +1,17 @@
 (function() {
   var app = angular.module('exway', ['ngRoute']).
     config(function($httpProvider, $interpolateProvider) {
+      // this is importants because is the standard header that django uses to
+      // identify ajax requests
       $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+      // this is needed in order to distinguish between django template variable
+      // substitution token
       $interpolateProvider.startSymbol('{$');
       $interpolateProvider.endSymbol('$}');
     });
 
+  // app routes configurations
   app.config(function($routeProvider){
     $routeProvider.
       when('/', {
@@ -20,6 +25,8 @@
       otherwise({redirectTo: '/'});
   });
 
+  // controller user to handle menu clicks and add the properly classes to make
+  // the user see that some menu item/url is currently active
   app.controller('PagesController', function(){
     this.page = 1;
 
