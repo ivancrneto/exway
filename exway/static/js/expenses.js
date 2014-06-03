@@ -10,17 +10,17 @@
     this.hideForm = function(){
       expensesCtrl.currentExpense = {};
       expensesCtrl.showForm = false;
-    }
+    };
 
     this.deleteExpense = function(expense){
       var index = expensesCtrl.expenses.indexOf(expense);
       expensesCtrl.expenses.splice(index, 1);
-    }
+    };
 
     this.addExpense = function(){
       expensesCtrl.expenses.push(expensesCtrl.currentExpense);
       expensesCtrl.currentExpense = {}
-    }
+    };
 
   });
 
