@@ -4,18 +4,22 @@
   app.controller('ExpensesController', function(){
     var expensesCtrl = this;
 
-    this.expenses = [{
-      id: 1,
-      description: 'A new monitor for my MacBook',
-      date: '06/02/2014',
-      time: '15:34 AM',
-      amount: 300,
-      comment: 'I need that because my older one broke'
-    }];
+    this.currentExpense = {};
+    this.expenses = [];
 
-    this.deleteExpense = function(expense) {
+    this.hideForm = function(){
+      expensesCtrl.currentExpense = {};
+      expensesCtrl.showForm = false;
+    }
+
+    this.deleteExpense = function(expense){
       var index = expensesCtrl.expenses.indexOf(expense);
       expensesCtrl.expenses.splice(index, 1);
+    }
+
+    this.addExpense = function(){
+      expensesCtrl.expenses.push(expensesCtrl.currentExpense);
+      expensesCtrl.currentExpense = {}
     }
 
   });
