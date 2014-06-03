@@ -5,7 +5,6 @@
       <i class="glyphicon glyphicon-plus"></i>
       Add Expense
     </button>
-    <div class="alert alert-info" ng-show="!expensesCtrl.expenses.length">No expenses yet.</div>
 
     <form name="expensesForm" class="form-horizontal" role="form" novalidate
       ng-show="expensesCtrl.showForm"
@@ -52,6 +51,8 @@
         </div>
       </div>
     </form>
+
+    <div class="alert alert-info" ng-show="!expensesCtrl.expenses.length">No expenses yet.</div>
 
     <table class="table table-striped table-hover" ng-show="expensesCtrl.expenses.length">
       <thead>
