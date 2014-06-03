@@ -1,5 +1,5 @@
 (function() {
-  var app = angular.module('exway', ['ngRoute']).
+  var app = angular.module('exway', ['ngRoute', 'expenses']).
     config(function($httpProvider, $interpolateProvider) {
       // this is importants because is the standard header that django uses to
       // identify ajax requests
@@ -40,26 +40,4 @@
 
   });
 
-  app.controller('ExpensesController', function($log){
-    var expensesCtrl = this;
-
-    this.expenses = [{
-      id: 1,
-      description: 'A new monitor for my MacBook',
-      date: '06/02/2014',
-      time: '15:34 AM',
-      amount: 300,
-      comment: 'I need that because my older one broke'
-    }];
-
-    this.delete = function(expense) {
-      var index = expensesCtrl.expenses.indexOf(expense);
-      expensesCtrl.expenses.splice(index, 1);
-    }
-
-  });
-
-  app.controller('ReportsController', function(){
-
-  });
 })();
