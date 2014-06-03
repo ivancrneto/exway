@@ -13,7 +13,7 @@
       comment: 'I need that because my older one broke'
     }];
 
-    this.delete = function(expense) {
+    this.deleteExpense = function(expense) {
       var index = expensesCtrl.expenses.indexOf(expense);
       expensesCtrl.expenses.splice(index, 1);
     }
