@@ -27,11 +27,11 @@
       var data = expensesCtrl.currentExpense;
       data['format'] = 'json';
       $http.post('/api/expenses/', data).
-        success(function(status, data){
-          $log.log(status);
-          $log.log(data);
-          expensesCtrl.expenses.push(expensesCtrl.currentExpense);
-          expensesCtrl.currentExpense = {};
+        success(function(data, status){
+          if(status == 201){
+            expensesCtrl.expenses.push(expensesCtrl.currentExpense);
+            expensesCtrl.currentExpense = {};
+          }
         });
     };
 
