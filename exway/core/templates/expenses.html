@@ -67,7 +67,7 @@
       <tbody>
         <tr ng-repeat="expense in expensesCtrl.expenses">
           <td>{$ expense.description $}</td>
-          <td>{$ expense.date $}, {$ expense.time $}</td>
+          <td>{$ expense.datetime|date:"MM/dd/yyyy, h:mm a" $}</td>
           <td>{$ expense.amount|currency $}</td>
           <td>{$ expense.comment $}</td>
           <td>

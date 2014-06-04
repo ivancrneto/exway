@@ -1,11 +1,17 @@
 (function(){
   var app = angular.module('expenses', []);
 
-  app.controller('ExpensesController', function(){
+  app.controller('ExpensesController', ['$http', function($http){
     var expensesCtrl = this;
 
     this.currentExpense = {};
     this.expenses = [];
+
+    // get expenses data from api and fill expenses array
+    $http.get('/api/expenses', {format: 'json'}).success(function(data){
+      expensesCtrl.expenses = data;
+    });
+
 
     this.hideForm = function(){
       expensesCtrl.currentExpense = {};
@@ -22,7 +28,7 @@
       expensesCtrl.currentExpense = {}
     };
 
-  });
+  }]);
 
   app.controller('ReportsController', function(){
 
