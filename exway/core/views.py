@@ -1,4 +1,6 @@
 from django.views.generic import TemplateView
+from .models import Expense
+from .serializers import ExpenseSerializer
 
 
 class PartialView(TemplateView):
