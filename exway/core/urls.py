@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.views.generic import TemplateView
 from exway.core.views import PartialView
 
 partialpatterns = patterns('',
@@ -9,6 +10,6 @@ partialpatterns = patterns('',
 )
 
 urlpatterns = patterns('exway.core.views',
-    url(r'^$', 'home', name='home'),
+    url(r'^$', TemplateView.as_view(template_name="home.html"), name='home'),
     url(r'^partials/', include(partialpatterns, namespace='partials')),
 )
