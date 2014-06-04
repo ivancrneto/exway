@@ -8,7 +8,7 @@
     this.expenses = [];
 
     // get expenses data from api and fill expenses array
-    $http.get('/api/expenses', {format: 'json'}).success(function(data){
+    $http.get('/api/expenses/', {format: 'json'}).success(function(data){
       expensesCtrl.expenses = data;
     });
 
