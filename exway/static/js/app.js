@@ -40,4 +40,15 @@
 
   });
 
+  // app filters
+  app.filter('time', ['$filter', function($filter){
+    return function(input, format) {
+      var time = new Date();
+      time = time.toISOString().split('T')[0] + 'T' + input;
+      time = new Date(time);
+
+      return $filter('date')(time, format);
+    }
+  }]);
+
 })();
