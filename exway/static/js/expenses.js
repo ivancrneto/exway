@@ -24,8 +24,15 @@
     };
 
     this.addExpense = function(){
-      expensesCtrl.expenses.push(expensesCtrl.currentExpense);
-      expensesCtrl.currentExpense = {}
+      var data = expensesCtrl.currentExpense;
+      data['format'] = 'json';
+      $http.post('/api/expenses/', data).
+        success(function(status, data){
+          $log.log(status);
+          $log.log(data);
+          expensesCtrl.expenses.push(expensesCtrl.currentExpense);
+          expensesCtrl.currentExpense = {};
+        });
     };
 
   }]);
