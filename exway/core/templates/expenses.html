@@ -68,20 +68,20 @@
         <tr ng-repeat="expense in expensesCtrl.expenses">
           <td>
             <span ng-hide="editMode">{$ expense.description $}</span>
-            <input class="form-control" type="text" placeholder="Description" ng-show="editMode" required>
+            <input class="form-control" type="text" placeholder="Description" ng-show="editMode" ng-model="expense.description" required>
           </td>
           <td>
             <span ng-hide="editMode">{$ expense.date|date:"MM/dd/yyyy" $}, {$ expense.time|time:"h:mm a" $}</span>
-             <input type="date" class="form-control" placeholder="Date" ng-show="editMode" required>
-             <input type="time" class="form-control" placeholder="Time" ng-show="editMode" required>
+             <input type="date" class="form-control" placeholder="Date" ng-show="editMode" ng-model="expense.date" required>
+             <input type="time" class="form-control" placeholder="Time" ng-show="editMode" ng-model="expense.time" required>
           </td>
           <td>
             <span ng-hide="editMode">{$ expense.amount|currency $}</span>
-            <input type="number" class="form-control" placeholder="Amount" ng-show="editMode" required>
+            <input type="number" class="form-control" placeholder="Amount" ng-show="editMode" ng-model="expense.amount" required>
           </td>
           <td>
             <span ng-hide="editMode">{$ expense.comment $}</span>
-            <input type="text" class="form-control" placeholder="Comment" ng-show="editMode">
+            <input type="text" class="form-control" placeholder="Comment" ng-show="editMode" ng-model="expense.comment">
           </td>
           <td>
             <button class="btn btn-default" ng-click="editMode = true; expensesCtrl.startEditing(expense)" ng-show="!editMode">
