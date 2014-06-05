@@ -66,16 +66,38 @@
       </thead>
       <tbody>
         <tr ng-repeat="expense in expensesCtrl.expenses">
-          <td>{$ expense.description $}</td>
-          <td>{$ expense.date|date:"MM/dd/yyyy" $}, {$ expense.time|time:"h:mm a" $}</td>
-          <td>{$ expense.amount|currency $}</td>
-          <td>{$ expense.comment $}</td>
           <td>
-            <button class="btn btn-default">
+            <span ng-hide="editMode">{$ expense.description $}</span>
+            <input class="form-control" type="text" placeholder="Description" ng-show="editMode" required>
+          </td>
+          <td>
+            <span ng-hide="editMode">{$ expense.date|date:"MM/dd/yyyy" $}, {$ expense.time|time:"h:mm a" $}</span>
+             <input type="date" class="form-control" placeholder="Date" ng-show="editMode" required>
+             <input type="time" class="form-control" placeholder="Time" ng-show="editMode" required>
+          </td>
+          <td>
+            <span ng-hide="editMode">{$ expense.amount|currency $}</span>
+            <input type="number" class="form-control" placeholder="Amount" ng-show="editMode" required>
+          </td>
+          <td>
+            <span ng-hide="editMode">{$ expense.comment $}</span>
+            <input type="text" class="form-control" placeholder="Comment" ng-show="editMode">
+          </td>
+          <td>
+            <button class="btn btn-default" ng-click="editMode = true; expensesCtrl.startEditing(expense)" ng-show="!editMode">
               <i class="glyphicon glyphicon-edit"></i>
               Edit
             </button>
-            <button class="btn btn-danger" ng-click="expensesCtrl.deleteExpense(expense)">
+            <button class="btn btn-primary" ng-click="editMode = false;" ng-show="editMode">
+              <i class="glyphicon glyphicon-ok"></i>
+              Submit
+            </button>
+            <button class="btn btn-danger" ng-click="editMode = false;" ng-show="editMode">
+              <i class="glyphicon glyphicon-ban-circle"></i>
+              Cancel
+            </button>
+            <button class="btn btn-danger" ng-click="expensesCtrl.deleteExpense(expense)"
+              ng-show="!editMode">
               <i class="glyphicon glyphicon-remove"></i>
               Delete
             </button>
