@@ -19,8 +19,16 @@
     };
 
     this.deleteExpense = function(expense){
-      var index = expensesCtrl.expenses.indexOf(expense);
-      expensesCtrl.expenses.splice(index, 1);
+      var url = '/api/expenses/' + expense.id + '/'
+      $http.delete(url).
+        success(function(data, status){
+          if(status == 204){
+            var index = expensesCtrl.expenses.indexOf(expense);
+            expensesCtrl.expenses.splice(index, 1);
+          } else {
+            //TODO: put message here
+          }
+        });
     };
 
     this.addExpense = function(){
