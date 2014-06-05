@@ -92,7 +92,7 @@
               <i class="glyphicon glyphicon-ok"></i>
               Submit
             </button>
-            <button class="btn btn-danger" ng-click="editMode = false;" ng-show="editMode">
+            <button class="btn btn-danger" ng-click="editMode = false; expensesCtrl.cancelEdit()" ng-show="editMode">
               <i class="glyphicon glyphicon-ban-circle"></i>
               Cancel
             </button>
