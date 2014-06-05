@@ -39,6 +39,8 @@
           if(status == 201){
             expensesCtrl.expenses.push(expensesCtrl.currentExpense);
             expensesCtrl.currentExpense = {};
+          } else {
+            //TODO: put message here
           }
         });
     };
