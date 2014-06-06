@@ -38,6 +38,12 @@ class ExpenseDetail(APIView):
         except Expense.DoesNotExist:
             raise Http404
 
+    def get(self, request, pk, format=None):
+        """ method for retrieving one expense """
+        expense = self.get_object(pk)
+        serializer = ExpenseSerializer(expense)
+        return Response(serializer.data)
+
     def put(self, request, pk, format=None):
         """ method for updating one expense """
         expense = self.get_object(pk)
