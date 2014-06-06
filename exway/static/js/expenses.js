@@ -30,19 +30,7 @@
       expensesCtrl.showForm = false;
     };
 
-    this.deleteExpense = function(expense){
-      var url = '/api/expenses/' + expense.id + '/'
-      $http.delete(url).
-        success(function(data, status){
-          if(status == 204){
-            var index = expensesCtrl.expenses.indexOf(expense);
-            expensesCtrl.expenses.splice(index, 1);
-          } else {
-            //TODO: put message here
-          }
-        });
-    };
-
+    // method for adding a new expense
     this.addExpense = function(){
       var data = expensesCtrl.currentExpense;
       data['format'] = 'json';
@@ -57,18 +45,34 @@
         });
     };
 
+    // method for deleting a expense using the button in table row
+    this.deleteExpense = function(expense){
+      var url = '/api/expenses/' + expense.id + '/'
+      $http.delete(url).
+        success(function(data, status){
+          if(status == 204){
+            var index = expensesCtrl.expenses.indexOf(expense);
+            expensesCtrl.expenses.splice(index, 1);
+          } else {
+            //TODO: put message here
+          }
+        });
+    };
+
     // makes the basic steps for editing an expense
     this.startEditing = function(expense){
       expensesCtrl.editing = expensesCtrl.expenses.indexOf(expense);
       expensesCtrl.oldExpense = angular.copy(expense);
     };
 
+    // saves an expense after editing
     this.saveExpense = function(index) {
       if(expensesCtrl.editing !== false){
         expensesCtrl.editing = false;
       }
     };
 
+    // cancels expense editing
     this.cancelEdit = function(index){
       if(expensesCtrl.editing !== false){
         expensesCtrl.expenses[expensesCtrl.editing] = expensesCtrl.oldExpense;
