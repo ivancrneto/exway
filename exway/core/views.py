@@ -38,7 +38,17 @@ class ExpenseDetail(APIView):
         except Expense.DoesNotExist:
             raise Http404
 
+    def put(self, request, pk, format=None):
+        """ method for updating one expense """
+        expense = self.get_object(pk)
+        serializer = ExpenseSerializer(expense, data=request.DATA)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     def delete(self, request, pk, format=None):
+        """ mathod for deleting one expense """
         expense = self.get_object(pk)
         expense.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
