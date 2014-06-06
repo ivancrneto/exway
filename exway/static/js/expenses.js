@@ -68,7 +68,23 @@
     // saves an expense after editing
     this.saveExpense = function(index) {
       if(expensesCtrl.editing !== false){
-        expensesCtrl.editing = false;
+        var data = angular.copy(expensesCtrl.expenses[expensesCtrl.editing]);
+        // sets the model to old one first
+        expensesCtrl.expenses[expensesCtrl.editing] = expensesCtrl.oldExpense;
+
+        var url = '/api/expenses/' + data.id + '/';
+        $http.put(url, data).
+          success(function(data, status){
+            if(status == 200){
+              data['amount'] = parseFloat(data['amount']);
+              expensesCtrl.expenses[expensesCtrl.editing] = data;
+            } else {
+              //TODO: put a message here
+            }
+          }).
+          then(function() {
+            expensesCtrl.editing = false;
+          });
       }
     };
 
