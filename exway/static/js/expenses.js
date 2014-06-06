@@ -1,7 +1,7 @@
 (function(){
-  var app = angular.module('expenses', []);
+  var app = angular.module('expenses', ['ngCookies']);
 
-  app.controller('ExpensesController', ['$log', '$http', function($log, $http){
+  app.controller('ExpensesController', ['$log', '$http', '$cookies', function($log, $http, $cookies){
     var expensesCtrl = this;
 
     // this flag controls if the user is editing any table row
@@ -24,7 +24,6 @@
       }
     });
 
-
     this.hideForm = function(){
       expensesCtrl.currentExpense = {};
       expensesCtrl.showForm = false;
@@ -33,6 +32,7 @@
     // method for adding a new expense
     this.addExpense = function(){
       var data = expensesCtrl.currentExpense;
+      data.csrftoken = $cookies.csrftoken;
       $http.post('/api/expenses/', data).
         success(function(data, status){
           if(status == 201){
