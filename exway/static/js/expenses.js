@@ -1,7 +1,12 @@
 (function(){
   var app = angular.module('expenses', ['ngCookies']);
 
-  app.controller('ExpensesController', ['$log', '$http', '$cookies', function($log, $http, $cookies){
+  // configure csrf token for app because django requires it for safety
+  app.run(function($http, $cookies) {
+    $http.defaults.headers.common['X-CSRFToken'] = $cookies.csrftoken;
+  });
+
+  app.controller('ExpensesController', ['$log', '$http', function($log, $http){
     var expensesCtrl = this;
 
     // this flag controls if the user is editing any table row
@@ -32,7 +37,6 @@
     // method for adding a new expense
     this.addExpense = function(){
       var data = expensesCtrl.currentExpense;
-      data.csrftoken = $cookies.csrftoken;
       $http.post('/api/expenses/', data).
         success(function(data, status){
           if(status == 201){
