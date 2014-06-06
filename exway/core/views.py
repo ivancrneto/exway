@@ -5,6 +5,7 @@ from .serializers import ExpenseSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework import permissions
 
 
 class PartialView(TemplateView):
@@ -15,6 +16,9 @@ class PartialView(TemplateView):
 
 class ExpensesList(APIView):
     """ Class responsible for listing all expenses or create a new one """
+
+    permission_classes = (permissions.IsAuthenticated,)
+
     def get(self, request, format=None):
         """ method for retrieving expenses """
         expenses = Expense.objects.order_by('created_on')
@@ -32,6 +36,9 @@ class ExpensesList(APIView):
 
 class ExpenseDetail(APIView):
     """ Class responsible for updating or deleting an expense """
+
+    permission_classes = (permissions.IsAuthenticated,)
+
     def get_object(self, pk):
         try:
             return Expense.objects.get(pk=pk)
