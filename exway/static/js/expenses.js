@@ -40,7 +40,8 @@
       $http.post('/api/expenses/', data).
         success(function(data, status){
           if(status == 201){
-            expensesCtrl.expenses.push(expensesCtrl.currentExpense);
+            data['amount'] = parseFloat(data['amount']);
+            expensesCtrl.expenses.push(data);
             expensesCtrl.currentExpense = {};
           } else {
             //TODO: put message here
