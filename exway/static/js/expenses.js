@@ -9,11 +9,12 @@
   app.controller('ExpensesController', ['$log', '$http', function($log, $http){
     var expensesCtrl = this;
 
-    // this flag controls if the user is editing any table row
-    this.editing = false;
+    // this controls if the user is editing any table row, using expense id as key
+    this.editing = {};
 
-    // this keeps the old expense for cases where the user cancels editing
-    this.oldExpense = {};
+    // this keeps the old expense for cases where the user cancels editing,
+    // using the expense id as key
+    this.oldExpenses = {};
 
     // currentExpense keeps the data from the adding form
     this.currentExpense = {};
@@ -26,6 +27,10 @@
       for(i in data){
         data[i]['amount'] = parseFloat(data[i]['amount']);
         expensesCtrl.expenses.push(data[i]);
+
+        // initializing editing and oldExpenses arrays with the ids of the expenses
+        expensesCtrl.editing[data.id] = false;
+        expensesCtrl.oldExpenses[data.id] = false;
       }
     });
 
@@ -65,38 +70,39 @@
 
     // makes the basic steps for editing an expense
     this.startEditing = function(expense){
-      expensesCtrl.editing = expensesCtrl.expenses.indexOf(expense);
-      expensesCtrl.oldExpense = angular.copy(expense);
+      expensesCtrl.editing[expense.id] = expensesCtrl.expenses.indexOf(expense);
+      expensesCtrl.oldExpenses[expense.id] = angular.copy(expense);
     };
 
     // saves an expense after editing
-    this.saveExpense = function(index) {
-      if(expensesCtrl.editing !== false){
-        var data = angular.copy(expensesCtrl.expenses[expensesCtrl.editing]);
+    this.saveExpense = function(expense) {
+      if(expensesCtrl.editing[expense.id] !== false){
+        var data = angular.copy(expensesCtrl.expenses[expensesCtrl.editing[expense.id]]);
         // sets the model to old one first
-        expensesCtrl.expenses[expensesCtrl.editing] = expensesCtrl.oldExpense;
+        expensesCtrl.expenses[expensesCtrl.editing[expense.id]] = expensesCtrl.oldExpenses[expense.id];
 
         var url = '/api/expenses/' + data.id + '/';
         $http.put(url, data).
           success(function(data, status){
             if(status == 200){
               data['amount'] = parseFloat(data['amount']);
-              expensesCtrl.expenses[expensesCtrl.editing] = data;
+              expensesCtrl.expenses[expensesCtrl.editing[expense.id]] = data;
             } else {
               //TODO: put a message here
             }
           }).
           then(function() {
-            expensesCtrl.editing = false;
+            expensesCtrl.editing[expense.id] = false;
           });
       }
     };
 
     // cancels expense editing
-    this.cancelEdit = function(index){
-      if(expensesCtrl.editing !== false){
-        expensesCtrl.expenses[expensesCtrl.editing] = expensesCtrl.oldExpense;
-        expensesCtrl.editing = false;
+    this.cancelEdit = function(expense){
+
+      if(expensesCtrl.editing[expense.id] !== false){
+        expensesCtrl.expenses[expensesCtrl.editing[expense.id]] = expensesCtrl.oldExpenses[expense.id];
+        expensesCtrl.editing[expense.id] = false;
       }
     };
 

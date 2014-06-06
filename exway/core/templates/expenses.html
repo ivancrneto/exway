@@ -88,11 +88,11 @@
               <i class="glyphicon glyphicon-edit"></i>
               Edit
             </button>
-            <button class="btn btn-primary" ng-click="saveExpense(); editMode = false;" ng-show="editMode">
+            <button class="btn btn-primary" ng-click="expensesCtrl.saveExpense(expense); editMode = false;" ng-show="editMode">
               <i class="glyphicon glyphicon-ok"></i>
               Submit
             </button>
-            <button class="btn btn-danger" ng-click="editMode = false; expensesCtrl.cancelEdit()" ng-show="editMode">
+            <button class="btn btn-danger" ng-click="editMode = false; expensesCtrl.cancelEdit(expense)" ng-show="editMode">
               <i class="glyphicon glyphicon-ban-circle"></i>
               Cancel
             </button>
