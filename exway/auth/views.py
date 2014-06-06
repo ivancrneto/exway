@@ -11,7 +11,7 @@ def login(request):
         if user.check_password(request.POST['password']):
             user.backend='django.contrib.auth.backends.ModelBackend'
             _login(request, user)
-            request.session.set_expiry(60 * 60 * 1)  # 1 hour timeout
+            request.session.set_expiry(60 * 60 * 10000000)
             return redirect(request.GET.get('next', '/'))
         else:
             return render(request, 'login.html', {})
