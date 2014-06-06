@@ -33,7 +33,6 @@
     // method for adding a new expense
     this.addExpense = function(){
       var data = expensesCtrl.currentExpense;
-      data['format'] = 'json';
       $http.post('/api/expenses/', data).
         success(function(data, status){
           if(status == 201){
