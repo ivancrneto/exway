@@ -27,6 +27,8 @@ TEMPLATE_DEBUG = DEBUG
 ALLOWED_HOSTS = ['54.207.37.156', 'ec2-54-235-156-174.compute-1.amazonaws.com']
 
 
+LOGIN_URL = '/auth/login/'
+
 # Application definition
 
 INSTALLED_APPS = (
@@ -42,6 +44,7 @@ INSTALLED_APPS = (
 
 PROJECT_APPS = (
     'exway.core',
+    'exway.auth',
 )
 
 INSTALLED_APPS += PROJECT_APPS
