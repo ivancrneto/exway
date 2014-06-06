@@ -46,7 +46,7 @@
 
     // method for deleting a expense using the button in table row
     this.deleteExpense = function(expense){
-      var url = '/api/expenses/' + expense.id + '/'
+      var url = '/api/expenses/' + expense.id + '/';
       $http.delete(url).
         success(function(data, status){
           if(status == 204){
