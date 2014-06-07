@@ -24,7 +24,7 @@ def signup(request):
 
 def login(request):
     if request.user.is_authenticated():
-        return redirect('/')
+        return redirect(r('core:home'))
 
     if request.method == 'GET':
         return render(request, 'login.html', {})
@@ -39,11 +39,11 @@ def login(request):
         user.backend = 'django.contrib.auth.backends.ModelBackend'
         _login(request, user)
         request.session.set_expiry(60 * 60 * 10000000)
-        return redirect(request.GET.get('next', '/'))
+        return redirect(request.GET.get('next', r('core:home')))
     else:
         return render(request, 'login.html', {})
 
 
 def logout(request):
     _logout(request)
-    return redirect('/')
+    return redirect(r('core:home'))
