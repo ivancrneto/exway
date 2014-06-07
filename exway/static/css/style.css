@@ -5,3 +5,11 @@
 .logo {
   margin-left: 30px;
 }
+
+.help-block {
+  font-size: 12px;
+}
+
+th.amount, td.amount {
+  text-align: right;
+}

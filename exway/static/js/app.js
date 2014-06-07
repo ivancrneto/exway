@@ -1,5 +1,5 @@
 (function() {
-  var app = angular.module('exway', ['ngRoute', 'expenses']).
+  var app = angular.module('exway', ['ngRoute', 'expenses', 'reports']).
     config(function($httpProvider, $interpolateProvider) {
       // this is importants because is the standard header that django uses to
       // identify ajax requests
