@@ -1,11 +1,14 @@
 from django.db import models
 from datetime import datetime
 
+
 class Expense(models.Model):
     description = models.CharField(max_length=256)
     datetime = models.DateTimeField()
     amount = models.DecimalField(decimal_places=2, max_digits=100)
     comment = models.CharField(max_length=100, null=True, blank=True)
+
+    user = models.ForeignKey('auth.User', related_name='expenses')
 
     created_on = models.DateTimeField(auto_now_add=True)
 
