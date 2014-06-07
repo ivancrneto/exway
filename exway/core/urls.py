@@ -5,9 +5,9 @@ from exway.core.views import PartialView, ExpensesList, ExpenseDetail
 
 partialpatterns = patterns('',
     url(r'^expenses.html$',
-        PartialView.as_view(template_name='expenses.html')),
+        login_required(PartialView.as_view(template_name='expenses.html'))),
     url(r'^reports.html$',
-        PartialView.as_view(template_name='reports.html'))
+        login_required(PartialView.as_view(template_name='reports.html')))
 )
 
 urlpatterns = patterns('exway.core.views',
