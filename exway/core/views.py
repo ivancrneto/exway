@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import permissions
+from exway.core.permissions import IsOwner
 
 
 class PartialView(TemplateView):
@@ -17,17 +18,19 @@ class PartialView(TemplateView):
 class ExpensesList(APIView):
     """ Class responsible for listing all expenses or create a new one """
 
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated, IsOwner)
 
     def get(self, request, format=None):
         """ method for retrieving expenses """
-        expenses = Expense.objects.order_by('created_on')
+        expenses = Expense.objects.filter(user=
+                                          request.user).order_by('created_on')
         serializer = ExpenseSerializer(expenses, request=request, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
         """ method for creating new expenses """
         serializer = ExpenseSerializer(data=request.DATA, request=request)
+        self.check_object_permissions(request, serializer.object)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -37,7 +40,7 @@ class ExpensesList(APIView):
 class ExpenseDetail(APIView):
     """ Class responsible for updating or deleting an expense """
 
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated, IsOwner,)
 
     def get_object(self, pk):
         try:
@@ -49,6 +52,7 @@ class ExpenseDetail(APIView):
         """ method for retrieving one expense """
         expense = self.get_object(pk)
         serializer = ExpenseSerializer(expense, request=request)
+        self.check_object_permissions(request, serializer.object)
         return Response(serializer.data)
 
     def put(self, request, pk, format=None):
@@ -56,6 +60,7 @@ class ExpenseDetail(APIView):
         expense = self.get_object(pk)
         serializer = ExpenseSerializer(expense, data=request.DATA,
                                        request=request)
+        self.check_object_permissions(request, serializer.object)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -64,5 +69,6 @@ class ExpenseDetail(APIView):
     def delete(self, request, pk, format=None):
         """ mathod for deleting one expense """
         expense = self.get_object(pk)
+        self.check_object_permissions(request, expense)
         expense.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
