@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
-from django.contrib.auth import login as _login
+from django.contrib.auth import login as _login, logout as _logout
 from django.shortcuts import render, redirect
+
 
 def login(request):
     if request.method == 'GET':
@@ -17,3 +18,8 @@ def login(request):
             return render(request, 'login.html', {})
     except User.DoesNotExist:
         return render(request, 'login.html', {})
+
+
+def logout(request):
+    _logout(request)
+    return redirect('/')
