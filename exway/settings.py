@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'djangular',
     'rest_framework',
+    'devserver',
 )
 
 PROJECT_APPS = (
