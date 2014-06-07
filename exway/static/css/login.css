@@ -56,8 +56,9 @@
 }
 .profile-img
 {
-    width: 96px;
-    height: 96px;
+    background-color: white;
+    width: 128px;
+    height: 128px;
     margin: 0 auto 10px;
     display: block;
     -moz-border-radius: 50%;
