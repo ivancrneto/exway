@@ -9,7 +9,9 @@
 
 {% block content %}
   <nav class="navbar navbar-inverse" ng-controller="PagesController as pages">
+    <a href="#/" ng-click="pages.selectPage(1)"><img src="{% static "img/exway-logo-48.png" %}" class="pull-left logo"></a>
     <a class="navbar-brand" href="#/" ng-click="pages.selectPage(1)">Exway - Expenses the Easy Way!</a>
+
     <ul class="nav navbar-nav">
       <li ng-class="{ active: pages.isSelected(1) }"><a href="#/" ng-click="pages.selectPage(1)">Expenses</a></li>
       <li ng-class="{ active: pages.isSelected(2) }"><a href="#/reports" ng-click="pages.selectPage(2)">Reports</a></li>
