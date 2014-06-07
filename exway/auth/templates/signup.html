@@ -1,0 +1,29 @@
+{% extends "auth_base.html" %}
+
+{% load staticfiles %}
+
+{% block extra_css %}
+  <link rel="stylesheet" type="text/css" href="{% static "css/login.css" %}">
+{% endblock extra_css %}
+
+{% block title %}
+  <h1 class="text-center login-title">Sign Up to Exway</h1>
+{% endblock title %}
+
+{% block form %}
+<form class="form-sign" action="{% url 'auth:signup' %}" method="post">
+  {% csrf_token %}
+  <input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
+  <input type="email" name="email" class="form-control" placeholder="Email" required>
+  <input type="password" name="password" class="form-control" placeholder="Password" required>
+  <input type="text" name="first_name" class="form-control" placeholder="First Name" required>
+  <input type="text" name="last_name" class="form-control" placeholder="Last Name" required>
+  <button class="btn btn-lg btn-primary btn-block" type="submit">
+      Sign Up</button>
+  <span class="clearfix"></span>
+</form>
+{% endblock form %}
+
+{% block help %}
+  <a href="{% url 'auth:login' %}" class="text-center new-account">Login to an account </a>
+{% endblock help %}
