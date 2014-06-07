@@ -16,7 +16,7 @@
                     alt="">
                     <form class="form-signin" action="{% url 'auth:login' %}" method="post" novalidate>
                       {% csrf_token %}
-                      <input type="text" name="email" class="form-control" placeholder="Email" required autofocus>
+                      <input type="text" name="username" class="form-control" placeholder="Email" required autofocus>
                       <input type="password" name="password" class="form-control" placeholder="Password" required>
                       <button class="btn btn-lg btn-primary btn-block" type="submit">
                           Login</button>
@@ -24,7 +24,7 @@
                           <input type="checkbox" value="remember-me">
                           Remember me
                       </label>
-                      <a href="#" class="pull-right need-help">Need help? </a><span class="clearfix"></span>
+                      <span class="clearfix"></span>
                 </form>
             </div>
             <a href="#" class="text-center new-account">Create an account </a>
