@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 
+{% load staticfiles %}
+
+{% block extra_js %}
+  <script type="text/javascript" src="{% static "js/app.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/expenses.js" %}"></script>
+{% endblock extra_js %}
+
 {% block content %}
   <nav class="navbar navbar-inverse" ng-controller="PagesController as pages">
     <a class="navbar-brand" href="#/" ng-click="pages.selectPage(1)">Exway - Expenses the Easy Way!</a>
