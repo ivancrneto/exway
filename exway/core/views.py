@@ -22,12 +22,12 @@ class ExpensesList(APIView):
     def get(self, request, format=None):
         """ method for retrieving expenses """
         expenses = Expense.objects.order_by('created_on')
-        serializer = ExpenseSerializer(expenses, many=True)
+        serializer = ExpenseSerializer(expenses, request=request, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
         """ method for creating new expenses """
-        serializer = ExpenseSerializer(data=request.DATA)
+        serializer = ExpenseSerializer(data=request.DATA, request=request)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -48,13 +48,14 @@ class ExpenseDetail(APIView):
     def get(self, request, pk, format=None):
         """ method for retrieving one expense """
         expense = self.get_object(pk)
-        serializer = ExpenseSerializer(expense)
+        serializer = ExpenseSerializer(expense, request=request)
         return Response(serializer.data)
 
     def put(self, request, pk, format=None):
         """ method for updating one expense """
         expense = self.get_object(pk)
-        serializer = ExpenseSerializer(expense, data=request.DATA)
+        serializer = ExpenseSerializer(expense, data=request.DATA,
+                                       request=request)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
