@@ -15,6 +15,12 @@
 
     var expensesCtrl = this;
 
+		// model containing the values for the expenses filter
+		this.expensesFilter = {
+			amountMin: 0,
+			amountMax: 1000,
+		};
+
     // this controls if the user is editing any table row, using expense id as key
     this.editing = {};
 
@@ -30,7 +36,8 @@
 
     // get expenses data from api and fill expenses array
 		this.getExpenses = function(params){
-			$http.get('/api/expenses/', params).success(function(data){
+			expensesCtrl.expenses = [];
+			$http.get('/api/expenses/', {params: params}).success(function(data){
 				for(i in data){
 					data[i]['amount'] = parseFloat(data[i]['amount']);
 					expensesCtrl.expenses.push(data[i]);
@@ -40,6 +47,10 @@
 					expensesCtrl.oldExpenses[data.id] = false;
 				}
 			});
+		};
+
+		this.applyFilter = function(){
+			this.getExpenses(expensesCtrl.expensesFilter);
 		};
 
     this.hideForm = function(){

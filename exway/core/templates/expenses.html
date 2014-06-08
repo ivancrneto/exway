@@ -20,22 +20,22 @@
           <tbody>
             <tr>
               <td>
-                <input type="text" class="form-control" placeholder="Description">
+                <input type="text" class="form-control" placeholder="Description" ng-model="expensesCtrl.expensesFilter.description">
               </td>
               <td>
-                <input type="text" class="form-control" placeholder="Comment">
+                <input type="text" class="form-control" placeholder="Comment" ng-model="expensesCtrl.expensesFilter.comment">
               </td>
               <td width="20%">
-                <div range-slider min="0" max="1000" model-min="demo1.min" model-max="demo1.max" step="1" filter="currency"></div>
+                <div range-slider min="0" max="1000" model-min="expensesCtrl.expensesFilter.amountMin" model-max="expensesCtrl.expensesFilter.amountMax" step="1" filter="currency"></div>
               </td>
               <td>
-                <input type="date" class="form-control">
+                <input type="date" class="form-control" ng-model="expensesCtrl.expensesFilter.dateFrom">
               </td>
               <td>
-                <input type="date" class="form-control">
+                <input type="date" class="form-control" ng-model="expensesCtrl.expensesFilter.dateTo">
               </td>
               <td>
-                <button class="btn btn-primary">
+                <button class="btn btn-primary" ng-click="expensesCtrl.applyFilter()">
                   <i class="glyphicon glyphicon-filter"></i>
                   Apply
                 </button>
