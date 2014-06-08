@@ -5,8 +5,8 @@
     <div class="row-fluid">
       <h4>Filter</h4>
 
-      <form name="expensesFilterForm" class="space-bottom">
-        <table class="table expenses-filter-table">
+      <form name="expensesFilterForm">
+        <table class="table expenses-filter-table nomargin-bottom">
           <thead>
             <tr>
               <th>Description:</th>
@@ -99,7 +99,7 @@
       </div>
     </form>
 
-    <div class="alert alert-info" ng-show="!expensesCtrl.expenses.length">No expenses yet.</div>
+    <div class="alert alert-info" ng-show="!expensesCtrl.expenses.length">No expenses.</div>
 
     <table class="table table-striped table-hover" ng-show="expensesCtrl.expenses.length">
       <thead>

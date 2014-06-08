@@ -10,6 +10,10 @@
 	padding-left: 0;
 }
 
+.nomargin-bottom {
+  margin-bottom: 0;
+}
+
 .range-slider, .ngrs-range-slider {
   margin-top: 2px;
 }
