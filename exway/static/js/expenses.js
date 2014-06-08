@@ -18,7 +18,7 @@
 		// model containing the values for the expenses filter
 		this.expensesFilter = {
 			amountMin: 0,
-			amountMax: 1000,
+			amountMax: 1000
 		};
 
     // this controls if the user is editing any table row, using expense id as key
