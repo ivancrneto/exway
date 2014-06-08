@@ -1,4 +1,6 @@
+from decimal import Decimal
 from django.views.generic import TemplateView
+from django.db.models import Q
 from django.http import Http404
 from .models import Expense
 from .serializers import ExpenseSerializer
@@ -20,10 +22,35 @@ class ExpensesList(APIView):
 
     permission_classes = (permissions.IsAuthenticated, IsOwner)
 
+    def apply_filter(self, request):
+        description = request.GET.get('description')
+        comment = request.GET.get('comment')
+        amount_min = request.GET.get('amountMin')
+        amount_max = request.GET.get('amountMax')
+        date_from = request.GET.get('dateFrom')
+        date_to = request.GET.get('dateTo')
+
+        query = Q()
+        if description:
+            query &= Q(description__contains=description)
+        if comment:
+            query &= Q(comment__contains=comment)
+        if amount_min:
+            query &= Q(amount__gte=Decimal(amount_min))
+        if amount_max:
+            query &= Q(amount__lte=Decimal(amount_max))
+        if date_from:
+            query &= Q(datetime__gte=date_from)
+        if date_to:
+            query &= Q(datetime__lte=date_to + ' 23:59')
+
+        return query
+
     def get(self, request, format=None):
         """ method for retrieving expenses """
-        expenses = Expense.objects.filter(user=
-                                          request.user).order_by('created_on')
+        expenses = Expense.objects.filter(Q(user=request.user) &\
+                                          self.apply_filter(request))
+        expenses = expenses.order_by('datetime')
         serializer = ExpenseSerializer(expenses, request=request, many=True)
         return Response(serializer.data)
 
