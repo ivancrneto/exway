@@ -4,7 +4,6 @@
   // configure csrf token for app because django requires it for safety
   app.run(function($http, $cookies) {
     $http.defaults.headers.common['X-CSRFToken'] = $cookies.csrftoken;
-
   });
 
   app.controller('ExpensesController', ['$log', '$http', '$scope', function($log, $http, $scope){
@@ -30,16 +29,18 @@
     this.expenses = [];
 
     // get expenses data from api and fill expenses array
-    $http.get('/api/expenses/').success(function(data){
-      for(i in data){
-        data[i]['amount'] = parseFloat(data[i]['amount']);
-        expensesCtrl.expenses.push(data[i]);
+		this.getExpenses = function(params){
+			$http.get('/api/expenses/', params).success(function(data){
+				for(i in data){
+					data[i]['amount'] = parseFloat(data[i]['amount']);
+					expensesCtrl.expenses.push(data[i]);
 
-        // initializing editing and oldExpenses arrays with the ids of the expenses
-        expensesCtrl.editing[data.id] = false;
-        expensesCtrl.oldExpenses[data.id] = false;
-      }
-    });
+					// initializing editing and oldExpenses arrays with the ids of the expenses
+					expensesCtrl.editing[data.id] = false;
+					expensesCtrl.oldExpenses[data.id] = false;
+				}
+			});
+		};
 
     this.hideForm = function(){
       expensesCtrl.currentExpense = {};
@@ -113,6 +114,7 @@
       }
     };
 
+		this.getExpenses({});
   }]);
 
   app.controller('ReportsController', function(){
