@@ -53,6 +53,14 @@
 			this.getExpenses(expensesCtrl.expensesFilter);
 		};
 
+		this.clearFilter = function(){
+			this.expensesFilter = {
+				amountMin: 0,
+				amountMax: 1000
+			};
+			this.applyFilter();
+		};
+
     this.hideForm = function(){
       expensesCtrl.currentExpense = {};
       expensesCtrl.showForm = false;
