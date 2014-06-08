@@ -1,7 +1,54 @@
 <div class="row-fluid" ng-controller="ExpensesController as expensesCtrl">
   <div class="col-lg-12">
     <h2>Expenses</h2>
-    <button class="btn btn-success space-bottom" ng-click="expensesCtrl.showForm = true">
+
+    <div class="row-fluid">
+      <h4>Filter</h4>
+
+      <form name="expensesFilterForm" class="space-bottom">
+        <table class="table expenses-filter-table">
+          <thead>
+            <tr>
+              <th>Description:</th>
+              <th>Comment:</th>
+              <th>Amount:</th>
+              <th>Date From:</th>
+              <th>Date To:</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <input type="text" class="form-control" placeholder="Description">
+              </td>
+              <td>
+                <input type="text" class="form-control" placeholder="Comment">
+              </td>
+              <td width="20%">
+                <div range-slider min="0" max="1000" model-min="demo1.min" model-max="demo1.max" step="1" filter="currency"></div>
+              </td>
+              <td>
+                <input type="date" class="form-control">
+              </td>
+              <td>
+                <input type="date" class="form-control">
+              </td>
+              <td>
+                <button class="btn btn-primary">
+                  <i class="glyphicon glyphicon-filter"></i>
+                  Apply
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+
+    </div>
+
+
+    <button class="btn btn-success space-bottom space-top" ng-click="expensesCtrl.showForm = true">
       <i class="glyphicon glyphicon-plus"></i>
       Add Expense
     </button>

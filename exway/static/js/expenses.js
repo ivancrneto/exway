@@ -1,12 +1,19 @@
 (function(){
-  var app = angular.module('expenses', ['ngCookies']);
+  var app = angular.module('expenses', ['ngCookies', 'ui-rangeSlider']);
 
   // configure csrf token for app because django requires it for safety
   app.run(function($http, $cookies) {
     $http.defaults.headers.common['X-CSRFToken'] = $cookies.csrftoken;
+
   });
 
-  app.controller('ExpensesController', ['$log', '$http', function($log, $http){
+  app.controller('ExpensesController', ['$log', '$http', '$scope', function($log, $http, $scope){
+
+    $scope.demo1 = {
+        min: 0,
+        max: 1000
+    };
+
     var expensesCtrl = this;
 
     // this controls if the user is editing any table row, using expense id as key
