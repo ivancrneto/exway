@@ -43,3 +43,7 @@ th.amount, td.amount {
 .bs-callout-title {
   border-color: #5cb85c;
 }
+
+.navbar-form.navbar-right:last-child {
+  margin-right: 0;
+}

@@ -22,7 +22,7 @@
       <form class="navbar-form navbar-right" role="logout" action="{% url 'auth:logout' %}" method="post">
         {% csrf_token %}
         <div class="form-group">
-          Welcome, {{ request.user.first_name }} {{ request.user.last_name }}
+          Welcome, <b>{{ request.user.first_name }} {{ request.user.last_name }}&nbsp;&nbsp;</b>
         </div>
         <button class="btn btn-default" name="logout-submit">Logout</button>
       </form>
