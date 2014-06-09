@@ -8,4 +8,6 @@ class IsOwner(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         """ Only allow if the owner of the object is the same user performing
             the request """
+        if not obj:
+            return True
         return obj.user == request.user
