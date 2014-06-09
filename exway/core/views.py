@@ -1,6 +1,7 @@
+from isoweek import Week
 from decimal import Decimal
 from django.views.generic import TemplateView
-from django.db.models import Q
+from django.db.models import Q, Avg, Sum, Count
 from django.http import Http404
 from .models import Expense
 from .serializers import ExpenseSerializer
@@ -99,3 +100,43 @@ class ExpenseDetail(APIView):
         self.check_object_permissions(request, expense)
         expense.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class Reports(APIView):
+    """ Class responsible for generating expenses reports """
+
+    permission_classes = (permissions.IsAuthenticated, IsOwner,)
+
+    def get(self, request, rtype, format=None):
+        if rtype == 'weekly':
+            return self.weekly_report(request)
+
+        raise Http404
+
+    def weekly_report(self, request):
+        # weeks sum and average aggregation
+        # NOTE: only works with sqlite
+        weeks = Expense.objects.all().extra({
+            "week": "strftime('%Y%W', datetime)"}).values('week').\
+            order_by('week').annotate(total=Sum('amount'),
+                                      average=Avg('amount'),
+                                      count=Count('amount'))
+        weeks = {w['week']: w for w in weeks}
+
+        # expenses per week
+        # NOTE: only works with sqlite
+        weeks_expenses = Expense.objects.all().extra(
+            {"week": "strftime('%Y%W', datetime)"}).order_by('datetime')
+
+        for expense in weeks_expenses:
+            week = weeks[expense.week]
+            if 'expenses' not in week:
+                week['expenses'] = []
+            week['expenses'].append(ExpenseSerializer(expense).data)
+
+            week['initialDate'] = Week(int(week['week'][:4]),
+                                       int(week['week'][4:]) + 1).monday()
+            week['finalDate'] = Week(int(week['week'][:4]),
+                                       int(week['week'][4:]) + 1).sunday()
+
+        return Response(weeks)
