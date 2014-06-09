@@ -18,8 +18,10 @@ def signup(request):
                     is_active=True)
         user.set_password(data['password'])
         user.save()
-
-    return redirect(r('core:home'))
+        request.session['signup_username'] = user.username
+        return redirect(r('auth:login'))
+    else:
+        return render(request, 'signup.html', {'form': signup_form})
 
 
 def login(request):
