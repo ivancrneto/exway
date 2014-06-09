@@ -40,7 +40,6 @@ th.amount, td.amount {
   border-left: 3px solid #eee;
 }
 
-.bs-callout-danger {
-  background-color: #fcf8f2;
+.bs-callout-title {
   border-color: #5cb85c;
 }
