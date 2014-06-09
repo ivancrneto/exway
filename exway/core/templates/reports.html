@@ -10,7 +10,7 @@
   <div class="panel" ng-controller="ReportsController as reportsCtrl">
     <div class="row-fluid" ng-repeat="weeklyExpenses in reportsCtrl.weeklyExpensesSet">
 
-      <div class="bs-callout bs-callout-danger">
+      <div class="bs-callout bs-callout-title">
         <h4>Week from {$ weeklyExpenses.initialDate|date:"MM/dd/yyyy" $} to {$ weeklyExpenses.finalDate|date:"MM/dd/yyyy" $}</span></h4>
       </div>
 
