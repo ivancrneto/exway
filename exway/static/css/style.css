@@ -3,11 +3,11 @@
 }
 
 .space-top {
-	margin-top: 10px;
+  margin-top: 10px;
 }
 
 .nopadding-left {
-	padding-left: 0;
+  padding-left: 0;
 }
 
 .nomargin-bottom {
@@ -46,4 +46,23 @@ th.amount, td.amount {
 
 .navbar-form.navbar-right:last-child {
   margin-right: 0;
+}
+
+.form-sign .form-group {
+  margin-bottom: 0;
+}
+
+.form-sign .form-group ul.errorlist {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+.form-sign .form-group ul.errorlist:first-child {
+  margin-top: 10px;
+}
+
+.form-sign .form-group ul.errorlist li {
+  color: #a94442;
 }
