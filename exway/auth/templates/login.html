@@ -13,7 +13,7 @@
 {% block form %}
 <form class="form-sign" action="{% url 'auth:login' %}" method="post">
   {% csrf_token %}
-  <input type="text" name="username" class="form-control" placeholder="Username/Email" required autofocus>
+  <input type="text" name="username" class="form-control" placeholder="Username/Email" required {% if request.method == 'GET'%}value="{{ signup_username }}"{% endif %} autofocus>
   <input type="password" name="password" class="form-control" placeholder="Password" required>
   <button class="btn btn-lg btn-primary btn-block" type="submit">
       Login</button>

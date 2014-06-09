@@ -29,7 +29,10 @@ def login(request):
         return redirect(r('core:home'))
 
     if request.method == 'GET':
-        return render(request, 'login.html', {})
+        context = {}
+        if 'signup_username' in request.session:
+            context['signup_username'] = request.session.pop('signup_username')
+        return render(request, 'login.html', context)
 
     try:
         user = User.objects.get(Q(username=request.POST['username']) |
