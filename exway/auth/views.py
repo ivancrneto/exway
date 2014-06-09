@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.contrib import messages
 from django.contrib.auth import login as _login, logout as _logout
 from django.core.urlresolvers import reverse as r
 from django.shortcuts import render, redirect
@@ -18,6 +19,7 @@ def signup(request):
                     is_active=True)
         user.set_password(data['password'])
         user.save()
+        messages.success(request, 'User signed up successfully.')
         request.session['signup_username'] = user.username
         return redirect(r('auth:login'))
     else:
