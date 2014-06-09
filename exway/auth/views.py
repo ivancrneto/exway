@@ -38,7 +38,7 @@ def login(request):
         user = User.objects.get(Q(username=request.POST['username']) |
                                 Q(email=request.POST['username']))
     except User.DoesNotExist:
-        return render(request, 'login.html', {})
+        return render(request, 'login.html', {'result': 'loginerror'})
 
     if user.check_password(request.POST['password']):
         user.backend = 'django.contrib.auth.backends.ModelBackend'
@@ -46,7 +46,7 @@ def login(request):
         request.session.set_expiry(60 * 60 * 10000000)
         return redirect(request.GET.get('next', r('core:home')))
     else:
-        return render(request, 'login.html', {})
+        return render(request, 'login.html', {'result': 'loginerror'})
 
 
 def logout(request):
