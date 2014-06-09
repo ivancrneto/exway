@@ -116,7 +116,7 @@ class Reports(APIView):
     def weekly_report(self, request):
         # weeks sum and average aggregation
         # NOTE: only works with sqlite
-        weeks = Expense.objects.all().extra({
+        weeks = Expense.objects.filter(user=request.user).extra({
             "week": "strftime('%Y%W', datetime)"}).values('week').\
             order_by('week').annotate(total=Sum('amount'),
                                       average=Avg('amount'),
@@ -125,7 +125,7 @@ class Reports(APIView):
 
         # expenses per week
         # NOTE: only works with sqlite
-        weeks_expenses = Expense.objects.all().extra(
+        weeks_expenses = Expense.objects.filter(user=request.user).extra(
             {"week": "strftime('%Y%W', datetime)"}).order_by('datetime')
 
         for expense in weeks_expenses:
