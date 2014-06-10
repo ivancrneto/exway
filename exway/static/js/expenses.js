@@ -88,6 +88,8 @@
         success(function(data, status){
           if(status == 201){
             data['amount'] = parseFloat(data['amount']);
+            data['date'] = moment.utc(data['date']).format('MM/DD/YYYY');
+            data['time'] = $filter('time')(data['time'], 'h:mm A');
             expensesCtrl.expenses.push(data);
             expensesCtrl.currentExpense = {};
           } else {
