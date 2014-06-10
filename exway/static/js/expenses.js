@@ -133,10 +133,65 @@
       }
     };
 
+    // method for configuring expenses module datepickers
+    this.initDatePickers = function(){
+      $('#dateFromFilter').datetimepicker({pickTime: false});
+      $("#dateFromFilter").on("dp.show dp.change", function (e) {
+        $scope.$apply(function() {
+          expensesCtrl.expensesFilter.dateFrom = e.date.format('MM/DD/YYYY');
+        });
+      });
+
+      $('#dateToFilter').datetimepicker({pickTime: false});
+      $("#dateToFilter").on("dp.show dp.change", function (e) {
+        $scope.$apply(function() {
+          expensesCtrl.expensesFilter.dateTo = e.date.format('MM/DD/YYYY');
+        });
+      });
+
+      $('#currentExpenseDate').datetimepicker({pickTime: false});
+      $("#currentExpenseDate").on("dp.show dp.change", function (e) {
+        $scope.$apply(function() {
+          expensesCtrl.currentExpense.date = e.date.format('MM/DD/YYYY');
+        });
+      });
+
+      $('#currentExpenseTime').datetimepicker({pickDate: false});
+      $("#currentExpenseTime").on("dp.show dp.change", function (e) {
+        $scope.$apply(function() {
+          expensesCtrl.currentExpense.time = e.date.format('h:mm A');
+        });
+      });
+    };
+
 		this.getExpenses({});
-  }]);
+    this.initDatePickers();
+  }]).directive('ngDateEdit', function($log) {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attributes) {
+        element.datetimepicker({pickTime: false});
 
-  app.controller('ReportsController', function(){
+        element.bind("dp.show dp.change", function (e) {
+          scope.$apply(function(elem) {
+            elem.expense.date = e.date.format('MM/DD/YYYY');
+          });
+        });
+      }
+    }
+  }).directive('ngTimeEdit', function($log) {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attributes) {
+        element.datetimepicker({pickDate: false});
 
+        element.bind("dp.show dp.change", function (e) {
+          scope.$apply(function(elem) {
+            elem.expense.time = e.date.format('h:mm A');
+          });
+        });
+      }
+    }
   });
+
 })();
