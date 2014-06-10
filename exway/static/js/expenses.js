@@ -47,7 +47,7 @@
 				for(i in data){
 					data[i]['amount'] = parseFloat(data[i]['amount']);
 					data[i]['date'] = moment.utc(data[i]['date']).format('MM/DD/YYYY');
-          data[i]['time'] = $filter('time')(data[i]['time'], 'h:mm A');
+          data[i]['time'] = $filter('time')(data[i]['time'], 'hh:mm A');
 					expensesCtrl.expenses.push(data[i]);
 
 					// initializing editing and oldExpenses arrays with the ids of the expenses
@@ -90,7 +90,7 @@
           if(status == 201){
             data['amount'] = parseFloat(data['amount']);
             data['date'] = moment.utc(data['date']).format('MM/DD/YYYY');
-            data['time'] = $filter('time')(data['time'], 'h:mm A');
+            data['time'] = $filter('time')(data['time'], 'hh:mm A');
             expensesCtrl.expenses.push(data);
             expensesCtrl.currentExpense = {};
           } else {
@@ -134,7 +134,7 @@
             if(status == 200){
               data['amount'] = parseFloat(data['amount']);
               data['date'] = moment.utc(data['date']).format('MM/DD/YYYY');
-              data['time'] = $filter('time')(data['time'], 'h:mm A');
+              data['time'] = $filter('time')(data['time'], 'hh:mm A');
               expensesCtrl.expenses[expensesCtrl.editing[expense.id]] = data;
             } else {
               //TODO: put a message here
@@ -181,7 +181,7 @@
       $('#currentExpenseTime').datetimepicker({pickDate: false});
       $("#currentExpenseTime").on("dp.show dp.change", function (e) {
         $scope.$apply(function() {
-          expensesCtrl.currentExpense.time = e.date.format('h:mm A');
+          expensesCtrl.currentExpense.time = e.date.format('hh:mm A');
         });
       });
     };
@@ -209,7 +209,7 @@
 
         element.bind("dp.show dp.change", function (e) {
           scope.$apply(function(elem) {
-            elem.expense.time = e.date.format('h:mm A');
+            elem.expense.time = e.date.format('hh:mm A');
           });
         });
       }

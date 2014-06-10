@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Expense
+import time
 
 
 class ExpenseSerializer(serializers.ModelSerializer):
@@ -17,6 +18,11 @@ class ExpenseSerializer(serializers.ModelSerializer):
     def __init__(self, *args, **kwargs):
         if 'request' in kwargs:
             self.request = kwargs.pop('request')
+        if 'data' in kwargs and 'time' in kwargs['data']:
+            kwargs['data']['time'] = time.strptime(kwargs['data']['time'],
+                                                   '%I:%M %p')
+            kwargs['data']['time'] = time.strftime('%H:%M',
+                                                   kwargs['data']['time'])
         super(ExpenseSerializer, self).__init__(*args, **kwargs)
 
     def save(self, *args, **kwargs):
