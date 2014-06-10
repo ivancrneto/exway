@@ -63,7 +63,7 @@ class ExpensesList(APIView):
 
     def get(self, request, format=None):
         """ Method for retrieving expenses """
-        expenses = Expense.objects.filter(Q(user=request.user) &\
+        expenses = Expense.objects.filter(Q(user=request.user) &
                                           self.apply_filter(request))
         expenses = expenses.order_by('datetime')
         serializer = ExpenseSerializer(expenses, request=request, many=True)
@@ -168,6 +168,5 @@ class Reports(APIView):
                                        int(week['week'][4:]) + 1).monday()
             week['finalDate'] = Week(int(week['week'][:4]),
                                      int(week['week'][4:]) + 1).sunday()
-
 
         return Response(weeks.values())

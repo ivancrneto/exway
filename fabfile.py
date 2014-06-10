@@ -31,6 +31,7 @@ def virtualenv():
         with prefix(env.activate):
             yield
 
+
 @task
 @roles('production')
 def test():
@@ -106,7 +107,7 @@ def deploy():
         run('mkdir -p logs/nginx')
         run('git checkout -f')
         run('git pull')
-        #clean pyc
+        # clean pyc
         run('rm -rfv `find ./ | egrep -i "(pyc|.swp|˜)$"`')
         # install requirements
         run('pip install -r requirements.txt')
