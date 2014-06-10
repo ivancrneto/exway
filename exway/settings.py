@@ -59,7 +59,7 @@ REST_FRAMEWORK = {
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 NOSE_ARGS = [
     '--with-coverage',
-    '--cover-package=esportevc.core,esportevc.auth',
+    '--cover-package=exway.core,exway.auth',
 ]
 
 MIDDLEWARE_CLASSES = (
