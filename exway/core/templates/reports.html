@@ -8,6 +8,8 @@
   </ul>
 
   <div class="panel" ng-controller="ReportsController as reportsCtrl" cg-busy="{promise:reportPromise, message:'Loading Report...'}">
+    <div class="alert alert-info" ng-show="!reportsCtrl.weeklyExpensesSet.length">No data for this report yet.</div>
+
     <div class="row-fluid" ng-repeat="weeklyExpenses in reportsCtrl.weeklyExpensesSet">
 
       <div class="bs-callout bs-callout-title">
