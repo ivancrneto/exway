@@ -1,3 +1,5 @@
+""" Views for auth app """
+
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import login as _login, logout as _logout
@@ -8,6 +10,7 @@ from exway.auth.forms import SignUpForm
 
 
 def signup(request):
+    """ View for processing user signup """
     if request.method == 'GET':
         return render(request, 'signup.html', {})
 
@@ -20,6 +23,8 @@ def signup(request):
         user.set_password(data['password'])
         user.save()
         messages.success(request, 'User signed up successfully.')
+        # setting sessing varible to show username in login field for login
+        # page right after registration
         request.session['signup_username'] = user.username
         return redirect(r('auth:login'))
     else:
@@ -27,6 +32,7 @@ def signup(request):
 
 
 def login(request):
+    """ View for processing user login """
     if request.user.is_authenticated():
         return redirect(r('core:home'))
 
@@ -47,6 +53,7 @@ def login(request):
         _login(request, user)
 
         session_time = 60 * 60 * 1  # 1 hour timeout
+        # if user marks remember me checkbox, add a lot of hours to its session
         if request.POST.get('remember-me') == 'on':
             session_time *= 10000000
         request.session.set_expiry(session_time)
@@ -56,5 +63,6 @@ def login(request):
 
 
 def logout(request):
+    """ View for processing logout """
     _logout(request)
     return redirect(r('core:home'))
