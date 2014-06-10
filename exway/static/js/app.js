@@ -27,8 +27,12 @@
 
   // controller user to handle menu clicks and add the properly classes to make
   // the user see that some menu item/url is currently active
-  app.controller('PagesController', function(){
+  app.controller('PagesController', ['$location', '$log', function($location, $log){
     this.page = 1;
+
+    this.currentUrl = function() {
+      return $location.path();
+    };
 
     this.selectPage = function(setPage) {
       this.page = setPage;
@@ -38,7 +42,7 @@
       return this.page == checkPage;
     };
 
-  });
+  }]);
 
   // app filters
   app.filter('time', ['$filter', '$log', function($filter, $log){

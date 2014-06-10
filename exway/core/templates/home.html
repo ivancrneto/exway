@@ -14,8 +14,8 @@
     <a class="navbar-brand" href="#/" ng-click="pages.selectPage(1)">Exway - Expenses the Easy Way!</a>
 
     <ul class="nav navbar-nav">
-      <li ng-class="{ active: pages.isSelected(1) }"><a href="#/" ng-click="pages.selectPage(1)">Expenses</a></li>
-      <li ng-class="{ active: pages.isSelected(2) }"><a href="#/reports" ng-click="pages.selectPage(2)">Reports</a></li>
+      <li ng-class="{ active: pages.currentUrl() == '/' }"><a href="#/" ng-click="pages.selectPage(1)">Expenses</a></li>
+      <li ng-class="{ active: pages.currentUrl() == '/reports' }"><a href="#/reports" ng-click="pages.selectPage(2)">Reports</a></li>
     </ul>
 
     {% if request.user.is_authenticated %}
