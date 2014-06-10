@@ -156,4 +156,5 @@ class Reports(APIView):
             week['finalDate'] = Week(int(week['week'][:4]),
                                        int(week['week'][4:]) + 1).sunday()
 
-        return Response(weeks)
+
+        return Response(weeks.values())
