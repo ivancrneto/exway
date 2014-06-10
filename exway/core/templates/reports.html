@@ -7,7 +7,7 @@
     </li>
   </ul>
 
-  <div class="panel" ng-controller="ReportsController as reportsCtrl">
+  <div class="panel" ng-controller="ReportsController as reportsCtrl" cg-busy="{promise:reportPromise, message:'Loading Report...'}">
     <div class="row-fluid" ng-repeat="weeklyExpenses in reportsCtrl.weeklyExpensesSet">
 
       <div class="bs-callout bs-callout-title">

@@ -1,12 +1,13 @@
 (function(){
   var app = angular.module('reports', []);
 
-  app.controller('ReportsController', ['$log', '$http', function($log, $http){
+  app.controller('ReportsController', ['$log', '$http', '$scope', function($log, $http, $scope){
     var reportsCtrl = this;
 
     this.weeklyExpensesSet = [];
 
-    $http.get('/api/reports/weekly').success(function(data){
+    $scope.reportPromise = $http.get('/api/reports/weekly');
+    $scope.reportPromise.success(function(data){
       for(var i in data){
         for(var j in data[i].expenses) {
           var expense = data[i].expenses[j];

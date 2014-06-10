@@ -42,7 +42,8 @@
     // get expenses data from api and fill expenses array
 		this.getExpenses = function(params){
 			expensesCtrl.expenses = [];
-			$http.get('/api/expenses/', {params: params}).success(function(data){
+			$scope.expensesPromise = $http.get('/api/expenses/', {params: params});
+      $scope.expensesPromise.success(function(data){
 				for(i in data){
 					data[i]['amount'] = parseFloat(data[i]['amount']);
 					data[i]['date'] = moment.utc(data[i]['date']).format('MM/DD/YYYY');
