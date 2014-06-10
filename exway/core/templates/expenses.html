@@ -67,22 +67,27 @@
       ng-show="expensesCtrl.showForm"
       ng-submit="expensesForm.$valid && expensesCtrl.addExpense()">
       <div class="form-group">
+        <div class="col-sm-6">
+          <label class="errorlabel" ng-repeat="error in expensesCtrl.currentExpense.errors">{$ error $}</label>
+        </div>
+      </div>
+      <div class="form-group">
         <label class="sr-only">Expense description</label>
         <div class="col-sm-6">
-          <input type="text" class="form-control" placeholder="Expense description"
+          <input type="text" class="form-control" ng-class="{submitted: !!submitted}" placeholder="Expense description"
             ng-model="expensesCtrl.currentExpense.description" required>
         </div>
       </div>
       <div class="form-group">
         <label class="sr-only control-label">Amount</label>
         <div class="col-sm-2">
-          <input type="number" class="form-control" placeholder="Amount"
+          <input type="number" class="form-control" ng-class="{submitted: !!submitted}" placeholder="Amount"
            ng-model="expensesCtrl.currentExpense.amount" required>
         </div>
         <label class="sr-only control-label">Date</label>
         <div class="col-sm-2">
           <div class='input-group date' id='currentExpenseDate'>
-            <input type="text" class="form-control" ng-model="expensesCtrl.currentExpense.date" required>
+            <input type="text" class="form-control" ng-class="{submitted: !!submitted}" ng-model="expensesCtrl.currentExpense.date" required>
             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
           </div>
 
@@ -90,7 +95,7 @@
         <label class="sr-only control-label">Time</label>
         <div class="col-sm-2">
           <div class='input-group date' id='currentExpenseTime'>
-            <input type="text" class="form-control" ng-model="expensesCtrl.currentExpense.time" required>
+            <input type="text" class="form-control" ng-class="{submitted: !!submitted}" ng-model="expensesCtrl.currentExpense.time" required>
             <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
           </div>
 
@@ -99,16 +104,16 @@
       <div class="form-group">
         <label class="sr-only control-label">Comment</label>
         <div class="col-sm-4">
-          <input type="text" class="form-control" placeholder="Comment"
+          <input type="text" class="form-control" ng-class="{submitted: !!submitted}" placeholder="Comment"
            ng-model="expensesCtrl.currentExpense.comment">
         </div>
         <div class="col-sm-1">
-          <button type="submit" class="btn btn-primary">
+          <button type="submit" class="btn btn-primary" ng-click="submitted = true">
             <i class="glyphicon glyphicon-ok"></i>
             Submit</button>
         </div>
         <div class="col-sm-1">
-          <button class="btn btn-danger" ng-click="expensesCtrl.hideForm()">
+          <button class="btn btn-danger" ng-click="submitted = false; expensesCtrl.hideForm()">
             <i class="glyphicon glyphicon-ban-circle"></i>
             Cancel</button>
         </div>

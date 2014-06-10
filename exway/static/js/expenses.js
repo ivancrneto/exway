@@ -93,9 +93,10 @@
             data['time'] = $filter('time')(data['time'], 'hh:mm A');
             expensesCtrl.expenses.push(data);
             expensesCtrl.currentExpense = {};
-          } else {
-            //TODO: put message here
           }
+        }).
+        error(function(data, status) {
+          expensesCtrl.currentExpense.errors = ['An unexpected error occurred. Please try again.'];
         });
     };
 

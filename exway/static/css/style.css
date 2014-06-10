@@ -66,3 +66,11 @@ th.amount, td.amount {
 .form-sign .form-group ul.errorlist li {
   color: #a94442;
 }
+
+label.errorlabel {
+  color: #A94442;
+}
+
+.submitted.ng-invalid {
+  border-color: #a94442;
+}
