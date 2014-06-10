@@ -122,8 +122,8 @@
         <tr>
           <th>Expense</th>
           <th>Date and Time</th>
-          <th>Amount</th>
           <th>Comment</th>
+          <th class="amount">Amount</th>
           <th class="amount">Actions</th>
         </tr>
       </thead>
@@ -145,13 +145,13 @@
               <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
             </div>
           </td>
-          <td width="15%">
-            <span ng-hide="editMode">{$ expense.amount|currency $}</span>
-            <input type="number" class="form-control" placeholder="Amount" ng-show="editMode" ng-model="expense.amount" required>
-          </td>
           <td width="20%">
             <span ng-hide="editMode">{$ expense.comment $}</span>
             <input type="text" class="form-control" placeholder="Comment" ng-show="editMode" ng-model="expense.comment">
+          </td>
+          <td width="15%" class="amount">
+            <span ng-hide="editMode">{$ expense.amount|currency $}</span>
+            <input type="number" class="form-control" placeholder="Amount" ng-show="editMode" ng-model="expense.amount" required>
           </td>
           <td width="20%">
             <div class="pull-right">
