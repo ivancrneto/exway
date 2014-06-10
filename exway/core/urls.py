@@ -21,7 +21,7 @@ urlpatterns = patterns(
     url(r'^$', login_required(TemplateView.as_view(template_name="home.html")),
         name='home'),
 
-    url(r'^api/expenses/$', ExpensesList.as_view()),
+    url(r'^api/expenses/$', ExpensesList.as_view(), name='expenses'),
     url(r'^api/expenses/amounts/$', ExpensesAmounts.as_view()),
     url(r'^api/expenses/(?P<pk>[0-9]+)/$', ExpenseDetail.as_view()),
 
