@@ -6,7 +6,7 @@
     $http.defaults.headers.common['X-CSRFToken'] = $cookies.csrftoken;
   });
 
-  app.controller('ExpensesController', ['$log', '$http', '$scope', function($log, $http, $scope){
+  app.controller('ExpensesController', ['$log', '$http', '$scope', '$filter', function($log, $http, $scope, $filter){
 
     $scope.demo1 = {
         min: 0,
