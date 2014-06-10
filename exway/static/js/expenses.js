@@ -8,18 +8,23 @@
 
   app.controller('ExpensesController', ['$log', '$http', '$scope', '$filter', function($log, $http, $scope, $filter){
 
-    $scope.demo1 = {
-        min: 0,
-        max: 1000
-    };
-
     var expensesCtrl = this;
 
 		// model containing the values for the expenses filter
-		this.expensesFilter = {
-			amountMin: 0,
-			amountMax: 1000
-		};
+    var expensesFilterDefault = {
+        amountMin: 0,
+        amountMax: 1000,
+    };
+    var expensesFilter = angular.copy(expensesFilterDefault);
+
+		// model containing the values for the expenses filter
+    $http.get('/api/expenses/amounts/').success(function(data){
+      expensesCtrl.expensesFilterDefault = {
+        amountMin: parseFloat(data.min),
+        amountMax: parseFloat(data.max),
+      };
+      expensesCtrl.expensesFilter = angular.copy(expensesCtrl.expensesFilterDefault);
+    });
 
     // this controls if the user is editing any table row, using expense id as key
     this.editing = {};
@@ -65,10 +70,7 @@
 		};
 
 		this.clearFilter = function(){
-			this.expensesFilter = {
-				amountMin: 0,
-				amountMax: 1000
-			};
+			this.expensesFilter = angular.copy(this.expensesFilterDefault);
 			this.applyFilter();
 		};
 

@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 from exway.core.views import (PartialView, ExpensesList, ExpenseDetail,
-                              Reports)
+                              ExpensesAmounts, Reports)
 
 partialpatterns = patterns(
     '',
@@ -20,6 +20,7 @@ urlpatterns = patterns(
         name='home'),
 
     url(r'^api/expenses/$', ExpensesList.as_view()),
+    url(r'^api/expenses/amounts/$', ExpensesAmounts.as_view()),
     url(r'^api/expenses/(?P<pk>[0-9]+)/$', ExpenseDetail.as_view()),
 
     url(r'^api/reports/(?P<rtype>[a-z]+)/$', Reports.as_view()),

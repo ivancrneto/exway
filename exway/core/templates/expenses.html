@@ -26,7 +26,7 @@
                 <input type="text" class="form-control" placeholder="Comment" ng-model="expensesCtrl.expensesFilter.comment">
               </td>
               <td width="22%">
-                <div range-slider min="0" max="1000" model-min="expensesCtrl.expensesFilter.amountMin" model-max="expensesCtrl.expensesFilter.amountMax" step="1" filter="currency"></div>
+                <div range-slider min="0" max="expensesCtrl.expensesFilterDefault.amountMax" model-min="expensesCtrl.expensesFilter.amountMin" model-max="expensesCtrl.expensesFilter.amountMax" step="1" filter="currency"></div>
               </td>
               <td>
                 <div class='input-group date' id='dateFromFilter'>

@@ -2,7 +2,7 @@ from datetime import datetime
 from isoweek import Week
 from decimal import Decimal
 from django.views.generic import TemplateView
-from django.db.models import Q, Avg, Sum, Count
+from django.db.models import Q, Avg, Sum, Count, Max, Min
 from django.http import Http404
 from .models import Expense
 from .serializers import ExpenseSerializer
@@ -104,6 +104,16 @@ class ExpenseDetail(APIView):
         self.check_object_permissions(request, expense)
         expense.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ExpensesAmounts(APIView):
+
+    permission_classes = (permissions.IsAuthenticated, IsOwner,)
+
+    def get(self, request, format=None):
+        amounts = Expense.objects.filter(user=request.user).aggregate(
+            max=Max('amount'), min=Min('amount'))
+        return Response(amounts)
 
 
 class Reports(APIView):
