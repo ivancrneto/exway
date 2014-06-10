@@ -1,3 +1,5 @@
+""" Views for core app """
+
 from datetime import datetime
 from isoweek import Week
 from decimal import Decimal
@@ -14,7 +16,11 @@ from exway.core.permissions import IsOwner
 
 
 class PartialView(TemplateView):
+    """ Class for processing requests for templates from the client """
+
     def get_context_data(self, **kwargs):
+        """ Method for updating template context data and do some verifications
+        """
         if not self.request.is_ajax():
             raise Http404
 
@@ -28,6 +34,7 @@ class ExpensesList(APIView):
     permission_classes = (permissions.IsAuthenticated, IsOwner)
 
     def apply_filter(self, request):
+        """ Applies the filters when expenses filters are used """
         description = request.GET.get('description')
         comment = request.GET.get('comment')
         amount_min = request.GET.get('amountMin')
@@ -49,13 +56,13 @@ class ExpensesList(APIView):
             query &= Q(datetime__gte=date_from)
         if date_to:
             date_to = datetime.strptime(date_to, '%Y-%m-%d')
-            date_to = date_to.replace(hour=23, minute=59)
+            date_to = date_to.replace(hour=23, minute=59, second=59)
             query &= Q(datetime__lte=date_to)
 
         return query
 
     def get(self, request, format=None):
-        """ method for retrieving expenses """
+        """ Method for retrieving expenses """
         expenses = Expense.objects.filter(Q(user=request.user) &\
                                           self.apply_filter(request))
         expenses = expenses.order_by('datetime')
@@ -63,7 +70,7 @@ class ExpensesList(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        """ method for creating new expenses """
+        """ Method for creating new expenses """
         serializer = ExpenseSerializer(data=request.DATA, request=request)
         self.check_object_permissions(request, serializer.object)
         if serializer.is_valid():
@@ -78,20 +85,21 @@ class ExpenseDetail(APIView):
     permission_classes = (permissions.IsAuthenticated, IsOwner,)
 
     def get_object(self, pk):
+        """ Gets a single expense object """
         try:
             return Expense.objects.get(pk=pk)
         except Expense.DoesNotExist:
             raise Http404
 
     def get(self, request, pk, format=None):
-        """ method for retrieving one expense """
+        """ Method for retrieving one expense """
         expense = self.get_object(pk)
         serializer = ExpenseSerializer(expense, request=request)
         self.check_object_permissions(request, serializer.object)
         return Response(serializer.data)
 
     def put(self, request, pk, format=None):
-        """ method for updating one expense """
+        """ Method for updating one expense """
         expense = self.get_object(pk)
         serializer = ExpenseSerializer(expense, data=request.DATA,
                                        request=request)
@@ -102,7 +110,7 @@ class ExpenseDetail(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
-        """ mathod for deleting one expense """
+        """ Method for deleting one expense """
         expense = self.get_object(pk)
         self.check_object_permissions(request, expense)
         expense.delete()
@@ -110,10 +118,12 @@ class ExpenseDetail(APIView):
 
 
 class ExpensesAmounts(APIView):
+    """ Class for getting maximum and minimum expenses amounts """
 
     permission_classes = (permissions.IsAuthenticated, IsOwner,)
 
     def get(self, request, format=None):
+        """ Gets the minimum and max expense amounts for the user """
         amounts = Expense.objects.filter(user=request.user).aggregate(
             max=Max('amount'), min=Min('amount'))
         return Response(amounts)
@@ -125,12 +135,14 @@ class Reports(APIView):
     permission_classes = (permissions.IsAuthenticated, IsOwner,)
 
     def get(self, request, rtype, format=None):
+        """ Handles the GET call from the API """
         if rtype == 'weekly':
             return self.weekly_report(request)
 
         raise Http404
 
     def weekly_report(self, request):
+        """ Gets data from database and formats weekly report """
         # weeks sum and average aggregation
         # NOTE: only works with sqlite
         weeks = Expense.objects.filter(user=request.user).extra({
@@ -145,6 +157,7 @@ class Reports(APIView):
         weeks_expenses = Expense.objects.filter(user=request.user).extra(
             {"week": "strftime('%Y%W', datetime)"}).order_by('datetime')
 
+        # adjusting data
         for expense in weeks_expenses:
             week = weeks[expense.week]
             if 'expenses' not in week:
@@ -154,7 +167,7 @@ class Reports(APIView):
             week['initialDate'] = Week(int(week['week'][:4]),
                                        int(week['week'][4:]) + 1).monday()
             week['finalDate'] = Week(int(week['week'][:4]),
-                                       int(week['week'][4:]) + 1).sunday()
+                                     int(week['week'][4:]) + 1).sunday()
 
 
         return Response(weeks.values())

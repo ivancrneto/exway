@@ -1,8 +1,11 @@
+""" Models for core app """
+
 from django.db import models
 from datetime import datetime
 
 
 class Expense(models.Model):
+    """ Expense model """
     description = models.CharField(max_length=256)
     datetime = models.DateTimeField()
     amount = models.DecimalField(decimal_places=2, max_digits=100)
@@ -28,18 +31,22 @@ class Expense(models.Model):
     # these date and time properties are needed because the model uses
     # datetime but the api separates in two fields: date and time.
     def get_date(self):
+        """ Returns date part of datetime attribute """
         return self.datetime.date()
 
     def set_date(self, date):
+        """ Sets date part of datetime attribute """
         if self.datetime:
             self.datetime = datetime.combine(date, self.datetime.time())
         else:
             self.datetime = datetime.combine(date, datetime.min.time())
 
     def get_time(self):
+        """ Returns time part of datetime attribute """
         return self.datetime.time()
 
     def set_time(self, time):
+        """ Sets time part of datetime attribute """
         if self.datetime:
             self.datetime = datetime.combine(self.datetime.date(), time)
         else:

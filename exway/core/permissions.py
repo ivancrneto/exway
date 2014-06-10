@@ -1,3 +1,5 @@
+""" Module for controlling API permissions """
+
 from rest_framework import permissions
 
 

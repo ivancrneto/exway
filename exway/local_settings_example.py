@@ -1,3 +1,5 @@
+""" Local settings example """
+
 from .settings import INSTALLED_APPS
 
 DEBUG = True
