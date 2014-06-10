@@ -1,3 +1,5 @@
+""" Urls for auth app """
+
 from django.conf.urls import patterns, url, include
 
 urlpatterns = patterns(

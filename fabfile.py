@@ -1,5 +1,8 @@
 #!/usr/bin/python
 # encoding: utf-8
+
+""" Deployment module """
+
 from __future__ import with_statement
 import time
 import os
@@ -27,6 +30,7 @@ env.format = True
 
 @_contextmanager
 def virtualenv():
+    """ Setup env """
     with cd(env.path):
         with prefix(env.activate):
             yield
@@ -35,6 +39,7 @@ def virtualenv():
 @task
 @roles('production')
 def test():
+    """ Test machine name """
     run('uname -a')
 
 
