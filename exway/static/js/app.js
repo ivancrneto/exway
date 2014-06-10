@@ -41,13 +41,13 @@
   });
 
   // app filters
-  app.filter('time', ['$filter', function($filter){
+  app.filter('time', ['$filter', '$log', function($filter, $log){
     return function(input, format) {
-      var time = new Date();
+      var time = moment.utc();
       time = time.toISOString().split('T')[0] + 'T' + input;
-      time = new Date(time);
+      time = moment.utc(time);
 
-      return $filter('date')(time, format);
+      return time.format(format);
     }
   }]);
 

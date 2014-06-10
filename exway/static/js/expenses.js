@@ -40,6 +40,8 @@
 			$http.get('/api/expenses/', {params: params}).success(function(data){
 				for(i in data){
 					data[i]['amount'] = parseFloat(data[i]['amount']);
+					data[i]['date'] = moment.utc(data[i]['date']).format('MM/DD/YYYY');
+          data[i]['time'] = $filter('time')(data[i]['time'], 'h:mm A');
 					expensesCtrl.expenses.push(data[i]);
 
 					// initializing editing and oldExpenses arrays with the ids of the expenses
@@ -50,7 +52,16 @@
 		};
 
 		this.applyFilter = function(){
-			this.getExpenses(expensesCtrl.expensesFilter);
+      var params = angular.copy(expensesCtrl.expensesFilter);
+      if(params.dateFrom){
+        params.dateFrom = moment.utc(new Date(params.dateFrom));
+        params.dateFrom = params.dateFrom.toISOString().split('T')[0];
+      }
+      if(params.dateTo) {
+        params.dateTo = moment.utc(new Date(params.dateTo));
+        params.dateTo = params.dateTo.toISOString().split('T')[0];
+      }
+			this.getExpenses(params);
 		};
 
 		this.clearFilter = function(){
@@ -68,7 +79,9 @@
 
     // method for adding a new expense
     this.addExpense = function(){
-      var data = expensesCtrl.currentExpense;
+      var data = angular.copy(expensesCtrl.currentExpense);
+      data.date = moment.utc(new Date(data.date));
+      data.date = data.date.toISOString().split('T')[0];
       $http.post('/api/expenses/', data).
         success(function(data, status){
           if(status == 201){
@@ -108,11 +121,15 @@
         // sets the model to old one first
         expensesCtrl.expenses[expensesCtrl.editing[expense.id]] = expensesCtrl.oldExpenses[expense.id];
 
+        data.date = moment.utc(new Date(data.date));
+        data.date = data.date.toISOString().split('T')[0];
         var url = '/api/expenses/' + data.id + '/';
         $http.put(url, data).
           success(function(data, status){
             if(status == 200){
               data['amount'] = parseFloat(data['amount']);
+              data['date'] = moment.utc(data['date']).format('MM/DD/YYYY');
+              data['time'] = $filter('time')(data['time'], 'h:mm A');
               expensesCtrl.expenses[expensesCtrl.editing[expense.id]] = data;
             } else {
               //TODO: put a message here
