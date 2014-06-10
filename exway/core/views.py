@@ -1,3 +1,4 @@
+from datetime import datetime
 from isoweek import Week
 from decimal import Decimal
 from django.views.generic import TemplateView
@@ -41,9 +42,12 @@ class ExpensesList(APIView):
         if amount_max:
             query &= Q(amount__lte=Decimal(amount_max))
         if date_from:
+            date_from = datetime.strptime(date_from, '%Y-%m-%d')
             query &= Q(datetime__gte=date_from)
         if date_to:
-            query &= Q(datetime__lte=date_to + ' 23:59')
+            date_to = datetime.strptime(date_to, '%Y-%m-%d')
+            date_to = date_to.replace(hour=23, minute=59)
+            query &= Q(datetime__lte=date_to)
 
         return query
 

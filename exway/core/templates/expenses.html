@@ -19,38 +19,44 @@
           </thead>
           <tbody>
             <tr>
-              <td>
+              <td width="20%">
                 <input type="text" class="form-control" placeholder="Description" ng-model="expensesCtrl.expensesFilter.description">
               </td>
-              <td>
+              <td width="18%">
                 <input type="text" class="form-control" placeholder="Comment" ng-model="expensesCtrl.expensesFilter.comment">
               </td>
-              <td width="20%">
+              <td width="22%">
                 <div range-slider min="0" max="1000" model-min="expensesCtrl.expensesFilter.amountMin" model-max="expensesCtrl.expensesFilter.amountMax" step="1" filter="currency"></div>
               </td>
               <td>
-                <input type="date" class="form-control" ng-model="expensesCtrl.expensesFilter.dateFrom">
+                <div class='input-group date' id='dateFromFilter'>
+                  <input type="text" class="form-control" ng-model="expensesCtrl.expensesFilter.dateFrom">
+                  <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
               </td>
               <td>
-                <input type="date" class="form-control" ng-model="expensesCtrl.expensesFilter.dateTo">
+                <div class='input-group date' id='dateToFilter'>
+                  <input type="text" class="form-control" ng-model="expensesCtrl.expensesFilter.dateTo">
+                  <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
               </td>
-              <td>
-                <button class="btn btn-primary" ng-click="expensesCtrl.applyFilter()">
-                  <i class="glyphicon glyphicon-filter"></i>
-                  Apply
-                </button>
-                <button class="btn btn-default" ng-click="expensesCtrl.clearFilter()">
-                  <i class="glyphicon glyphicon-ban-circle"></i>
-                  Clear
-                </button>
+              <td width="15%">
+                <div class="pull-right">
+                  <button class="btn btn-primary" ng-click="expensesCtrl.applyFilter()">
+                    <i class="glyphicon glyphicon-filter"></i>
+                    Apply
+                  </button>
+                  <button class="btn btn-default" ng-click="expensesCtrl.clearFilter()">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    Clear
+                  </button>
+                </div>
               </td>
             </tr>
           </tbody>
         </table>
       </form>
-
     </div>
-
 
     <button class="btn btn-success space-bottom space-top" ng-click="expensesCtrl.showForm = true">
       <i class="glyphicon glyphicon-plus"></i>
@@ -75,13 +81,19 @@
         </div>
         <label class="sr-only control-label">Date</label>
         <div class="col-sm-2">
-          <input type="date" class="form-control" placeholder="Date"
-           ng-model="expensesCtrl.currentExpense.date" required>
+          <div class='input-group date' id='currentExpenseDate'>
+            <input type="text" class="form-control" ng-model="expensesCtrl.currentExpense.date" required>
+            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+          </div>
+
         </div>
         <label class="sr-only control-label">Time</label>
         <div class="col-sm-2">
-          <input type="time" class="form-control" placeholder="Time"
-           ng-model="expensesCtrl.currentExpense.time" required>
+          <div class='input-group date' id='currentExpenseTime'>
+            <input type="text" class="form-control" ng-model="expensesCtrl.currentExpense.time" required>
+            <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+          </div>
+
         </div>
       </div>
       <div class="form-group">
@@ -112,46 +124,55 @@
           <th>Date and Time</th>
           <th>Amount</th>
           <th>Comment</th>
-          <th>Actions</th>
+          <th class="amount">Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="expense in expensesCtrl.expenses">
-          <td>
+          <td width="30%">
             <span ng-hide="editMode">{$ expense.description $}</span>
             <input class="form-control" type="text" placeholder="Description" ng-show="editMode" ng-model="expense.description" required>
           </td>
-          <td>
-            <span ng-hide="editMode">{$ expense.date|date:"MM/dd/yyyy" $}, {$ expense.time|time:"h:mm a" $}</span>
-             <input type="date" class="form-control" placeholder="Date" ng-show="editMode" ng-model="expense.date" required>
-             <input type="time" class="form-control" placeholder="Time" ng-show="editMode" ng-model="expense.time" required>
+          <td width="15%">
+            <span ng-hide="editMode">{$ expense.date|date:"MM/dd/yyyy" $}, {$ expense.time $}</span>
+
+            <div class='input-group date' id='expenseDate-{$ $index $}' ng-show="editMode" ng-date-edit>
+              <input type="text" class="form-control" ng-model="expense.date" required>
+              <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+            <div class='input-group date' id='expenseTime-{$ $index $}' ng-show="editMode" ng-time-edit>
+              <input type="text" class="form-control" ng-model="expense.time" required>
+              <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+            </div>
           </td>
-          <td>
+          <td width="15%">
             <span ng-hide="editMode">{$ expense.amount|currency $}</span>
             <input type="number" class="form-control" placeholder="Amount" ng-show="editMode" ng-model="expense.amount" required>
           </td>
-          <td>
+          <td width="20%">
             <span ng-hide="editMode">{$ expense.comment $}</span>
             <input type="text" class="form-control" placeholder="Comment" ng-show="editMode" ng-model="expense.comment">
           </td>
-          <td>
-            <button class="btn btn-default" ng-click="editMode = true; expensesCtrl.startEditing(expense)" ng-show="!editMode">
-              <i class="glyphicon glyphicon-edit"></i>
-              Edit
-            </button>
-            <button class="btn btn-primary" ng-click="expensesCtrl.saveExpense(expense); editMode = false;" ng-show="editMode">
-              <i class="glyphicon glyphicon-ok"></i>
-              Submit
-            </button>
-            <button class="btn btn-danger" ng-click="editMode = false; expensesCtrl.cancelEdit(expense)" ng-show="editMode">
-              <i class="glyphicon glyphicon-ban-circle"></i>
-              Cancel
-            </button>
-            <button class="btn btn-danger" ng-click="expensesCtrl.deleteExpense(expense)"
-              ng-show="!editMode">
-              <i class="glyphicon glyphicon-remove"></i>
-              Delete
-            </button>
+          <td width="20%">
+            <div class="pull-right">
+              <button class="btn btn-default" ng-click="editMode = true; expensesCtrl.startEditing(expense)" ng-show="!editMode">
+                <i class="glyphicon glyphicon-edit"></i>
+                Edit
+              </button>
+              <button class="btn btn-primary" ng-click="expensesCtrl.saveExpense(expense); editMode = false;" ng-show="editMode">
+                <i class="glyphicon glyphicon-ok"></i>
+                Submit
+              </button>
+              <button class="btn btn-danger" ng-click="editMode = false; expensesCtrl.cancelEdit(expense)" ng-show="editMode">
+                <i class="glyphicon glyphicon-ban-circle"></i>
+                Cancel
+              </button>
+              <button class="btn btn-danger" ng-click="expensesCtrl.deleteExpense(expense)"
+                ng-show="!editMode">
+                <i class="glyphicon glyphicon-remove"></i>
+                Delete
+              </button>
+            </div>
           </td>
         </tr>
       </tbody>
