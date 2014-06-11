@@ -17,7 +17,7 @@ class ExpensesAPITestBase(TestCase):
             'email': 'ivan.cr.neto@me.com',
             'password': '123456',
         }
-        self.create_user()
+        self.user = self.create_user()
 
         self.auth_headers = {
             'HTTP_AUTHORIZATION': 'Basic ' +\
@@ -28,9 +28,10 @@ class ExpensesAPITestBase(TestCase):
     def create_user(self, **kwargs):
         data = self.user_data
         data.update(**kwargs)
-        self.user = User(**data)
-        self.user.set_password(data['password'])
-        self.user.save()
+        user = User(**data)
+        user.set_password(data['password'])
+        user.save()
+        return user
 
     def create_expense(self, user, **kwargs):
 
