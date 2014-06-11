@@ -163,3 +163,38 @@ class ExpensesAPITestPut(ExpensesAPITestBase):
                                  kwargs={'pk': self.expense2.id}),
                                json.dumps(expense_data), **self.auth_headers)
         self.assertEquals(403, resp.status_code)
+
+
+class ExpensesAPITestDelete(ExpensesAPITestBase):
+    def setUp(self):
+        ExpensesAPITestBase.setUp(self)
+
+        self.expense1 = self.create_expense(self.user)
+        user2 = self.create_user(username='Paula', email='paula@gmail.com')
+        self.expense2 = self.create_expense(user2)
+
+        self.expense_data = {
+            'description': 'A new TV for my bedroom',
+            'date': datetime.now(tz=pytz.UTC).strftime('%Y-%m-%d'),
+            'time': datetime.now(tz=pytz.UTC).strftime('%I:%M %p'),
+            'amount': '700',
+            'comment': 'my old one is broken',
+        }
+
+    def test_delete_expense(self):
+        """ Good delete request should return 204 no content status code """
+        resp = self.client.delete(r('core:expense_detail',
+                                    kwargs={'pk': self.expense1.id}),
+                                  **self.auth_headers)
+        self.assertEquals(204, resp.status_code)
+        with self.assertRaises(Expense.DoesNotExist):
+            Expense.objects.get(pk=self.expense1.id)
+
+    def test_delete_different_user(self):
+        """ Deleting an expense from a different user should return status \
+            code 403 forbidden """
+        resp = self.client.delete(r('core:expense_detail',
+                                    kwargs={'pk': self.expense2.id}),
+                                  **self.auth_headers)
+        self.assertEquals(403, resp.status_code)
+
