@@ -91,6 +91,7 @@ class ExpensesAPITestPost(ExpensesAPITestBase):
     def test_post_expense(self):
         """ Good post should return 201 created status and expense data """
 
+        expenses_count = Expense.objects.count()
         resp = self.client.post(r('core:expenses'), self.expense_data,
                                 **self.auth_headers)
         self.assertEquals(201, resp.status_code)
@@ -98,6 +99,7 @@ class ExpensesAPITestPost(ExpensesAPITestBase):
         extra_keys = ['id', 'user', 'created_on']
         self.assertListEqual(sorted(self.expense_data.keys() + extra_keys),
                              sorted(resp.keys()))
+        self.assertEquals(expenses_count + 1, Expense.objects.count())
 
     def test_post_missing_data(self):
         """ Posting with missing data should return 400 bad request as status \
