@@ -142,3 +142,22 @@ class ExpensesAPITestPut(ExpensesAPITestBase):
         resp = json.loads(resp.content)
         expense_data['time'] = '22:10:00'
         self.assertDictContainsSubset(expense_data, resp)
+
+    def test_put_bad_data(self):
+        """ Bad put request should return status code 400 bad request """
+        expense_data = self.expense_data.copy()
+        expense_data['amount'] = ''
+        del expense_data['description']
+        resp = self.client.put(r('core:expense_detail',
+                                 kwargs={'pk': self.expense1.id}),
+                               json.dumps(expense_data), **self.auth_headers)
+        self.assertEquals(400, resp.status_code)
+
+    def test_put_different_user(self):
+        """ Put to a expense from a different user should return status code \
+            403 forbidden """
+        expense_data = self.expense_data.copy()
+        resp = self.client.put(r('core:expense_detail',
+                                 kwargs={'pk': self.expense2.id}),
+                               json.dumps(expense_data), **self.auth_headers)
+        self.assertEquals(403, resp.status_code)
