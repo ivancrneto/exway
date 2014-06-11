@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse as r
 from exway.core.models import Expense
 
 
-class ExpensesAPITest(TestCase):
+class ExpensesAPITestBase(TestCase):
     def setUp(self):
         self.user_data = {
             'first_name': 'Ivan',
@@ -46,6 +46,8 @@ class ExpensesAPITest(TestCase):
         expense.save()
         return expense
 
+
+class ExpensesAPITestGet(ExpensesAPITestBase):
     def test_get_expenses_no_auth(self):
         """ Not authenticated requests should get an 403 reponse """
         resp = self.client.get(r('core:expenses'))
@@ -71,3 +73,36 @@ class ExpensesAPITest(TestCase):
                           {i['id'] for i in resp})
         self.assertEquals({expense1.amount, expense2.amount},
                           {float(i['amount']) for i in resp})
+
+
+class ExpensesAPITestPost(ExpensesAPITestBase):
+    def setUp(self):
+        self.expense_data = {
+            'description': 'A new TV for my bedroom',
+            'date': datetime.now(tz=pytz.UTC).strftime('%Y-%m-%d'),
+            'time': datetime.now(tz=pytz.UTC).strftime('%I:%M %p'),
+            'amount': 700,
+            'comment': 'my old one is broken',
+        }
+
+        ExpensesAPITestBase.setUp(self)
+
+    def test_post_expense(self):
+        """ Good post should return 201 created status and expense data """
+
+        resp = self.client.post(r('core:expenses'), self.expense_data,
+                                **self.auth_headers)
+        self.assertEquals(201, resp.status_code)
+        resp = json.loads(resp.content)
+        extra_keys = ['id', 'user', 'created_on']
+        self.assertListEqual(sorted(self.expense_data.keys() + extra_keys),
+                             sorted(resp.keys()))
+
+    def test_post_missing_data(self):
+        """ Posting with missing data should return 400 bad request as status \
+            code """
+        expense_data = self.expense_data.copy()
+        del expense_data['time']
+        resp = self.client.post(r('core:expenses'), expense_data,
+                                **self.auth_headers)
+        self.assertEquals(400, resp.status_code)
