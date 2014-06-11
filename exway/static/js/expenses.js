@@ -81,6 +81,7 @@
     this.hideForm = function(){
       expensesCtrl.currentExpense = {};
       expensesCtrl.showForm = false;
+      $scope.submitted = false;
     };
 
     // method for adding a new expense
