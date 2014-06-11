@@ -18,13 +18,16 @@
     var expensesFilter = angular.copy(expensesFilterDefault);
 
 		// model containing the values for the expenses filter
-    $http.get('/api/expenses/amounts/').success(function(data){
-      expensesCtrl.expensesFilterDefault = {
-        amountMin: parseFloat(data.min),
-        amountMax: parseFloat(data.max),
-      };
-      expensesCtrl.expensesFilter = angular.copy(expensesCtrl.expensesFilterDefault);
-    });
+    this.getAmounts = function() {
+      $http.get('/api/expenses/amounts/').success(function(data){
+        expensesCtrl.expensesFilterDefault = {
+          amountMin: parseFloat(data.min),
+          amountMax: parseFloat(data.max),
+        };
+        expensesCtrl.expensesFilter = angular.copy(expensesCtrl.expensesFilterDefault);
+      });
+    };
+    this.getAmounts();
 
     // this controls if the user is editing any table row, using expense id as key
     this.editing = {};
@@ -93,6 +96,10 @@
             data['time'] = $filter('time')(data['time'], 'hh:mm A');
             expensesCtrl.expenses.push(data);
             expensesCtrl.currentExpense = {};
+
+            // update amounts filter
+            expensesCtrl.getAmounts();
+            expensesCtrl.hideForm();
           }
         }).
         error(function(data, status) {
@@ -137,6 +144,8 @@
               data['date'] = moment.utc(data['date']).format('MM/DD/YYYY');
               data['time'] = $filter('time')(data['time'], 'hh:mm A');
               expensesCtrl.expenses[expensesCtrl.editing[expense.id]] = data;
+              // update amounts filter
+              expensesCtrl.getAmounts();
             } else {
               //TODO: put a message here
             }
