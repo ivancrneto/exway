@@ -107,3 +107,38 @@ class ExpensesAPITestPost(ExpensesAPITestBase):
         resp = self.client.post(r('core:expenses'), expense_data,
                                 **self.auth_headers)
         self.assertEquals(400, resp.status_code)
+
+
+class ExpensesAPITestPut(ExpensesAPITestBase):
+    def setUp(self):
+        ExpensesAPITestBase.setUp(self)
+
+        self.expense1 = self.create_expense(self.user)
+        user2 = self.create_user(username='Paula', email='paula@gmail.com')
+        self.expense2 = self.create_expense(user2)
+
+        self.expense_data = {
+            'description': 'A new TV for my bedroom',
+            'date': datetime.now(tz=pytz.UTC).strftime('%Y-%m-%d'),
+            'time': datetime.now(tz=pytz.UTC).strftime('%I:%M %p'),
+            'amount': '700',
+            'comment': 'my old one is broken',
+        }
+
+        self.auth_headers.update(
+            CONTENT_TYPE='application/json; charset=utf-8')
+
+
+    def test_put_expense(self):
+        """ Good put request should return status code 200, and expense data \
+            with updated fields """
+        expense_data = self.expense_data.copy()
+        expense_data['time'] = '10:10 PM'
+        expense_data['comment'] = ''
+        resp = self.client.put(r('core:expense_detail',
+                                 kwargs={'pk': self.expense1.id}),
+                               json.dumps(expense_data), **self.auth_headers)
+        self.assertEquals(200, resp.status_code)
+        resp = json.loads(resp.content)
+        expense_data['time'] = '22:10:00'
+        self.assertDictContainsSubset(expense_data, resp)
