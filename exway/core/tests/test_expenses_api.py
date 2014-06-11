@@ -198,3 +198,14 @@ class ExpensesAPITestDelete(ExpensesAPITestBase):
                                   **self.auth_headers)
         self.assertEquals(403, resp.status_code)
 
+    def test_delete_nonexistent(self):
+        """ Deleting an expense already deleted should return status code 404 \
+            not found """
+
+        resp = self.client.delete(r('core:expense_detail',
+                                    kwargs={'pk': self.expense1.id}),
+                                  **self.auth_headers)
+        resp = self.client.delete(r('core:expense_detail',
+                                    kwargs={'pk': self.expense1.id}),
+                                  **self.auth_headers)
+        self.assertEquals(404, resp.status_code)
